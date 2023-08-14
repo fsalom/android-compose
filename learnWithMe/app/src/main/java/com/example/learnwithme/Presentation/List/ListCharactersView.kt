@@ -1,2 +1,2 @@
-package com.example.learnwithme.Presentation.List
+package com.example.learnwithme.presentation.list
 

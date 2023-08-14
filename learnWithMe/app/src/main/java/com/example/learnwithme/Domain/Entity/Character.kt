@@ -1,2 +1,7 @@
-package com.example.learnwithme.Domain.Entity
+package com.example.learnwithme.domain.entity
 
+data class Character(
+    val name: String
+)  {
+
+}

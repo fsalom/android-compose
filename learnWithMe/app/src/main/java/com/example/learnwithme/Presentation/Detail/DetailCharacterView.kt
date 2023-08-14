@@ -1,2 +1,2 @@
-package com.example.learnwithme.Presentation.Detail
+package com.example.learnwithme.presentation.detail
 
