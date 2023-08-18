@@ -1,5 +1,7 @@
 package com.example.learnwithme.data.repository
 
+import com.example.learnwithme.domain.entity.Pagination
+
 interface CharacterRepositoryInterface {
-    fun getCharacters() : List<Character>
+    suspend fun getPagination(page: Int): Pagination
 }
