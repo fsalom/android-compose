@@ -22,6 +22,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.learnwithme.domain.entity.Character
 
@@ -65,7 +66,7 @@ fun CharacterRow(character: Character) {
                     .border(2.dp, Color.Gray, CircleShape)
             )
             Column(modifier = Modifier.padding(all = 10.dp)) {
-                Text(text = character.name, style = TextStyle(fontWeight = FontWeight.Bold, fontSize = ))
+                Text(text = character.name, style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 30.sp))
                 Text(text = character.species)
             }
         }
