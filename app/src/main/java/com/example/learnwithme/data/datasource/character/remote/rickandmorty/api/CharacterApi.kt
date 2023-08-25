@@ -1,6 +1,6 @@
-package com.example.learnwithme.data.datasource.character.remote.api
+package com.example.learnwithme.data.datasource.character.remote.rickandmorty.api
 
-import com.example.learnwithme.data.datasource.character.remote.dto.CharactersInfoDTO
+import com.example.learnwithme.data.datasource.character.remote.rickandmorty.dto.CharactersInfoDTO
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query

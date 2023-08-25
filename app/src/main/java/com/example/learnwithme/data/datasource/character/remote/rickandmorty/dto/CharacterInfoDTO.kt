@@ -1,6 +1,5 @@
-package com.example.learnwithme.data.datasource.character.remote.dto
+package com.example.learnwithme.data.datasource.character.remote.rickandmorty.dto
 
-import com.example.learnwithme.domain.entity.Character
 import com.example.learnwithme.domain.entity.Pagination
 import com.google.gson.annotations.SerializedName
 

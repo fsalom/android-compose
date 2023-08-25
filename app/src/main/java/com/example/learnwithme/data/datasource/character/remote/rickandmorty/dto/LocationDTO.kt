@@ -1,4 +1,4 @@
-package com.example.learnwithme.data.datasource.character.remote.dto
+package com.example.learnwithme.data.datasource.character.remote.rickandmorty.dto
 
 import com.google.gson.annotations.SerializedName
 

@@ -7,8 +7,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.example.learnwithme.data.datasource.character.remote.RemoteCharactersDataSource
-import com.example.learnwithme.data.datasource.character.remote.api.CharacterApiInterface
+import com.example.learnwithme.data.datasource.character.remote.rickandmorty.RemoteCharactersDataSource
+import com.example.learnwithme.data.datasource.character.remote.rickandmorty.api.CharacterApiInterface
 import com.example.learnwithme.data.repository.CharacterRepository
 import com.example.learnwithme.domain.usecase.CharacterUseCase
 import com.example.learnwithme.manager.NetworkManager
