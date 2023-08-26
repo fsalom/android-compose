@@ -7,7 +7,7 @@ import com.example.learnwithme.data.datasource.character.remote.disney.dto.toDom
 import com.example.learnwithme.domain.entity.Pagination
 import com.example.learnwithme.manager.NetworkManager
 
-class RemoteCharactersDataSource(
+class RemoteDisneyCharactersDataSource(
     private val disneyApi: DisneyApiInterFace,
     private val network: NetworkManager
 ): CharacterDataSourceInterface {

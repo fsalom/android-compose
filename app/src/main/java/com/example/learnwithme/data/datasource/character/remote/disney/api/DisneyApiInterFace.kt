@@ -5,6 +5,6 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface DisneyApiInterFace {
-    @GET("https://api.disneyapi.dev/character")
+    @GET("character")
     suspend fun getCharacters(@Query("page") page: Int): Response<DisneyInfoDTO>
 }

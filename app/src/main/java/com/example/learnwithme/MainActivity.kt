@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import com.example.learnwithme.data.datasource.character.remote.disney.RemoteDisneyCharactersDataSource
+import com.example.learnwithme.data.datasource.character.remote.disney.api.DisneyApiInterFace
 import com.example.learnwithme.data.datasource.character.remote.rickandmorty.RemoteCharactersDataSource
 import com.example.learnwithme.data.datasource.character.remote.rickandmorty.api.CharacterApiInterface
 import com.example.learnwithme.data.repository.CharacterRepository
@@ -23,17 +25,28 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val rickandmortyDatasource = RemoteCharactersDataSource(
+            characterApi = Retrofit.Builder()
+                .addConverterFactory(GsonConverterFactory.create())
+                .baseUrl("https://rickandmortyapi.com/")
+                .client(OkHttpClient())
+                .build().create(CharacterApiInterface::class.java),
+            network = NetworkManager()
+        )
+
+        val disneyDatasource = RemoteDisneyCharactersDataSource(
+            disneyApi = Retrofit.Builder()
+                .addConverterFactory(GsonConverterFactory.create())
+                .baseUrl("https://api.disneyapi.dev/")
+                .client(OkHttpClient())
+                .build().create(DisneyApiInterFace::class.java),
+            network = NetworkManager()
+        )
+
         val vm = ListCharactersViewModel(
             useCase =  CharacterUseCase(
                 repository = CharacterRepository(
-                    dataSource = RemoteCharactersDataSource(
-                        characterApi = Retrofit.Builder()
-                            .addConverterFactory(GsonConverterFactory.create())
-                            .baseUrl("https://rickandmortyapi.com/")
-                            .client(OkHttpClient())
-                            .build().create(CharacterApiInterface::class.java),
-                        network = NetworkManager()
-                    )
+                    dataSource = disneyDatasource
                 )
             )
         )
