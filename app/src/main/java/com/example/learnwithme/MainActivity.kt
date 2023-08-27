@@ -7,6 +7,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.learnwithme.data.datasource.character.remote.disney.RemoteDisneyCharactersDataSource
 import com.example.learnwithme.data.datasource.character.remote.disney.api.DisneyApiInterFace
 import com.example.learnwithme.data.datasource.character.remote.rickandmorty.RemoteCharactersDataSource
@@ -14,6 +17,7 @@ import com.example.learnwithme.data.datasource.character.remote.rickandmorty.api
 import com.example.learnwithme.data.repository.CharacterRepository
 import com.example.learnwithme.domain.usecase.CharacterUseCase
 import com.example.learnwithme.manager.NetworkManager
+import com.example.learnwithme.presentation.detail.DetailCharacterView
 import com.example.learnwithme.presentation.list.ListCharactersView
 import com.example.learnwithme.presentation.list.ListCharactersViewModel
 import com.example.learnwithme.ui.theme.LearnWithMeTheme
@@ -51,13 +55,21 @@ class MainActivity : ComponentActivity() {
             )
         )
         setContent {
+            val navController = rememberNavController()
             LearnWithMeTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    ListCharactersView(viewModel = vm)
+                    NavHost(navController = navController, startDestination = "home") {
+                        composable("home") {
+                            ListCharactersView(viewModel = vm, navController = navController)
+                        }
+                        composable("detail") {
+                            DetailCharacterView()
+                        }
+                    }
                 }
             }
         }

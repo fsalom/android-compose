@@ -1,5 +1,6 @@
 package com.example.learnwithme.presentation.list
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -30,12 +31,16 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.example.learnwithme.domain.entity.Character
 import kotlinx.coroutines.delay
 
 @Composable
-fun ListCharactersView(viewModel: ListCharactersViewModelInterface) {
+fun ListCharactersView(viewModel: ListCharactersViewModelInterface,
+                       navController: NavHostController
+) {
     val uiState by viewModel.uiState.collectAsState()
 
     if (uiState.isLoading) {
@@ -47,7 +52,7 @@ fun ListCharactersView(viewModel: ListCharactersViewModelInterface) {
         loadMoreItems = {
             viewModel.load()
         }) {
-            CharacterRow(uiState.items[it.first])
+            CharacterRow(uiState.items[it.first], navController = navController)
             if (it.second) {
                 CustomProgressIndicator()
             }
@@ -96,10 +101,13 @@ fun InfiniteScroll(
 }
 
 @Composable
-fun CharacterRow(character: Character) {
+fun CharacterRow(character: Character, navController: NavHostController) {
     Card(modifier = Modifier
         .fillMaxWidth()
-        .padding(10.dp)) {
+        .padding(10.dp)
+        .clickable {
+            navController.navigate("detail")
+        }) {
         Row(modifier = Modifier.padding(all = 10.dp)) {
             AsyncImage(
                 model = character.image,
