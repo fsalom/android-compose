@@ -106,7 +106,8 @@ fun CharacterRow(character: Character, navController: NavHostController) {
         .fillMaxWidth()
         .padding(10.dp)
         .clickable {
-            navController.navigate("detail")
+            val name = character.name
+            navController.navigate("detail/$name")
         }) {
         Row(modifier = Modifier.padding(all = 10.dp)) {
             AsyncImage(

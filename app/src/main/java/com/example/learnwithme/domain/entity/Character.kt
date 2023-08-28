@@ -1,5 +1,6 @@
 package com.example.learnwithme.domain.entity
 
+import android.os.Parcelable
 import java.io.Serializable
 
 data class Character(
