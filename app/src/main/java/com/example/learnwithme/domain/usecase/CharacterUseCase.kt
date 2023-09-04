@@ -8,4 +8,8 @@ class CharacterUseCase(val repository: CharacterRepositoryInterface): CharacterU
         var pagination = repository.getPagination(page)
         return Pair(pagination.hasNextPage, pagination.characters)
     }
+
+    override suspend fun getCharacterWith(id: String): Character? {
+        return repository.getCharacterWith(id)
+    }
 }

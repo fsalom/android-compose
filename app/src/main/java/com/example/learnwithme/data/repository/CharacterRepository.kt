@@ -7,4 +7,8 @@ class CharacterRepository(val dataSource: CharacterDataSourceInterface): Charact
     override suspend fun getPagination(page: Int): Pagination {
         return dataSource.getPagination(page)
     }
+
+    override suspend fun getCharacterWith(id: String): Character? {
+        return dataSource.getCharacterWith(id)
+    }
 }
