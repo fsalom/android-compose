@@ -4,6 +4,7 @@ import com.example.learnwithme.data.datasource.CharacterDataSourceInterface
 import com.example.learnwithme.data.datasource.character.remote.rickandmorty.api.CharacterApiInterface
 import com.example.learnwithme.data.datasource.character.remote.rickandmorty.dto.toDomain
 import com.example.learnwithme.domain.entity.Pagination
+import com.example.learnwithme.domain.entity.Character
 import com.example.learnwithme.manager.NetworkManager
 
 class RemoteCharactersDataSource(
