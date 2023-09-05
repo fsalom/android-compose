@@ -9,7 +9,7 @@ class CharacterUseCase(val repository: CharacterRepositoryInterface): CharacterU
         return Pair(pagination.hasNextPage, pagination.characters)
     }
 
-    override suspend fun getCharacterWith(id: String): Character? {
+    override suspend fun getCharacterWith(id: Int): Character? {
         return repository.getCharacterWith(id)
     }
 }

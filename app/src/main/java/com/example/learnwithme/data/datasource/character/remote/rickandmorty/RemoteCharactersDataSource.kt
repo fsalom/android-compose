@@ -17,7 +17,7 @@ class RemoteCharactersDataSource(
         return response.toDomain()
     }
 
-    override suspend fun getCharacterWith(id: String): Character? {
+    override suspend fun getCharacterWith(id: Int): Character? {
         val response = network.load { characterApi.getCharacter(id) }
         return response.toDomain()
     }

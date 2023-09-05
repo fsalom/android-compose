@@ -19,9 +19,9 @@ class RemoteDisneyCharactersDataSource(
         return response.toDomain()
     }
 
-    override suspend fun getCharacterWith(id: String): Character? {
+    override suspend fun getCharacterWith(id: Int): Character? {
         val response = network.load { disneyApi.getCharacter(id) }
-        val name = response.name ?: return null
-        return response.toDomain()
+        val data = response.data ?: return null
+        return data.toDomain()
     }
 }

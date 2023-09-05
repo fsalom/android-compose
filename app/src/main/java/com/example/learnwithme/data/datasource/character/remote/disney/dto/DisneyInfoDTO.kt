@@ -8,6 +8,11 @@ data class DisneyInfoDTO(
     @SerializedName("data") val data : List<DisneyCharacterDTO> = listOf()
 )
 
+data class DisneySingleInfoDTO(
+    @SerializedName("info") val info: DisneyPaginationDTO? = DisneyPaginationDTO(),
+    @SerializedName("data") val data : DisneyCharacterDTO?
+)
+
 data class DisneyPaginationDTO(
     @SerializedName("nextPage") var next : String? = null
 )

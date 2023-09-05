@@ -5,5 +5,5 @@ import com.example.learnwithme.domain.entity.Character
 
 interface CharacterDataSourceInterface {
     suspend fun getPagination(page: Int): Pagination
-    suspend fun getCharacterWith(id: String): Character?
+    suspend fun getCharacterWith(id: Int): Character?
 }

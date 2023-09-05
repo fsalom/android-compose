@@ -1,6 +1,6 @@
 package com.example.learnwithme.data.datasource.character.remote.disney.api
 import com.example.learnwithme.data.datasource.character.remote.disney.dto.DisneyInfoDTO
-import com.example.learnwithme.data.datasource.character.remote.rickandmorty.dto.CharacterDTO
+import com.example.learnwithme.data.datasource.character.remote.disney.dto.DisneySingleInfoDTO
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -10,5 +10,5 @@ interface DisneyApiInterFace {
     @GET("character")
     suspend fun getCharacters(@Query("page") page: Int): Response<DisneyInfoDTO>
     @GET("character/{id}")
-    suspend fun getCharacter(@Path("id") id: String): Response<CharacterDTO>
+    suspend fun getCharacter(@Path("id") id: Int): Response<DisneySingleInfoDTO>
 }

@@ -5,7 +5,7 @@ import com.example.learnwithme.domain.entity.Character
 import com.google.gson.annotations.SerializedName
 
 data class DisneyCharacterDTO(
-    @SerializedName("id") val id: Int? = null,
+    @SerializedName("_id") val id: Int? = null,
     @SerializedName("name") val name: String? = null,
     @SerializedName("imageUrl") val image: String? = null
 )
