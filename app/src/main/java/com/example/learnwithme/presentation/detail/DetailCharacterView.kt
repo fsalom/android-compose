@@ -4,13 +4,20 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.navigation.NavHostController
-import com.example.learnwithme.presentation.list.CharacterRow
 import com.example.learnwithme.presentation.list.CustomProgressIndicator
-import com.example.learnwithme.presentation.list.InfiniteScroll
 
 @Composable
-fun DetailCharactersView(character: String
+fun DetailCharactersView(
+    viewModel: DetailCharactersViewModel
 ) {
-    Text(character)
+    val uiState by viewModel.uiState.collectAsState()
+
+    if (uiState.isLoading) {
+        CustomProgressIndicator()
+        viewModel.load()
+    }
+
+    uiState.character?.let {
+        Text(it.name)
+    }
 }

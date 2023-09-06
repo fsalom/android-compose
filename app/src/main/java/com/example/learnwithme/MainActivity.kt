@@ -24,7 +24,6 @@ import com.example.learnwithme.presentation.detail.DetailCharactersViewModel
 import com.example.learnwithme.presentation.list.ListCharactersView
 import com.example.learnwithme.presentation.list.ListCharactersViewModel
 import com.example.learnwithme.ui.theme.LearnWithMeTheme
-import com.google.gson.Gson
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -73,17 +72,25 @@ class MainActivity : ComponentActivity() {
                             ListCharactersView(viewModel = vm, navController = navController)
                         }
                         composable(
-                            route="detail/{character}",
+                            route="detail/{id}",
                             arguments = listOf(
-                                navArgument("character") {
+                                navArgument("id") {
                                     /* configuring arguments for navigation */
-                                    type = NavType.StringType
+                                    type = NavType.IntType
                                 }
                             )
                         ) { navBackStackEntry->
-                            val character = navBackStackEntry.arguments?.getString("character")?.let { it }
+                            val character = navBackStackEntry.arguments?.getInt("id")?.let { it }
                             if (character != null) {
-                                DetailCharactersView(character)
+                                val vm = DetailCharactersViewModel(
+                                    id = character,
+                                    useCase =  CharacterUseCase(
+                                        repository = CharacterRepository(
+                                            dataSource = disneyDatasource
+                                        )
+                                    )
+                                )
+                                DetailCharactersView(viewModel = vm)
                             }
                         }
                     }
