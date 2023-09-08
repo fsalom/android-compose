@@ -12,6 +12,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.learnwithme.data.datasource.character.mock.MockCharacterDataSource
 import com.example.learnwithme.data.datasource.character.remote.disney.RemoteDisneyCharactersDataSource
 import com.example.learnwithme.data.datasource.character.remote.disney.api.DisneyApiInterFace
 import com.example.learnwithme.data.datasource.character.remote.rickandmorty.RemoteCharactersDataSource
@@ -32,6 +33,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val mockDatasource = MockCharacterDataSource()
 
         val rickandmortyDatasource = RemoteCharactersDataSource(
             characterApi = Retrofit.Builder()
@@ -54,7 +57,7 @@ class MainActivity : ComponentActivity() {
         val vm = ListCharactersViewModel(
             useCase =  CharacterUseCase(
                 repository = CharacterRepository(
-                    dataSource = disneyDatasource
+                    dataSource = mockDatasource
                 )
             )
         )
