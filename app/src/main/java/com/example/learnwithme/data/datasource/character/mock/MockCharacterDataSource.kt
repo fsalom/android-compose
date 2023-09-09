@@ -1,6 +1,6 @@
 package com.example.learnwithme.data.datasource.character.mock
 
-import com.example.learnwithme.data.datasource.CharacterDataSourceInterface
+import com.example.learnwithme.data.datasource.character.CharacterDataSourceInterface
 import com.example.learnwithme.domain.entity.Character
 import com.example.learnwithme.domain.entity.Pagination
 
