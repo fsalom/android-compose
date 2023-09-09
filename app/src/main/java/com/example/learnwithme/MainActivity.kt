@@ -54,10 +54,12 @@ class MainActivity : ComponentActivity() {
             network = NetworkManager()
         )
 
+        val dataSource = mockDatasource
+
         val vm = ListCharactersViewModel(
             useCase =  CharacterUseCase(
                 repository = CharacterRepository(
-                    dataSource = mockDatasource
+                    dataSource = dataSource
                 )
             )
         )
@@ -89,7 +91,7 @@ class MainActivity : ComponentActivity() {
                                     id = character,
                                     useCase =  CharacterUseCase(
                                         repository = CharacterRepository(
-                                            dataSource = disneyDatasource
+                                            dataSource = dataSource
                                         )
                                     )
                                 )
