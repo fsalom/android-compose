@@ -18,6 +18,11 @@ class RemoteDisneyCharactersDataSource(
         return response.toDomain()
     }
 
+    override suspend fun getPaginationFor(text: String, page: Int): Pagination {
+        val response = network.load { disneyApi.getCharactersFor(text, page) }
+        return response.toDomain()
+    }
+
     override suspend fun getCharacterWith(id: Int): Character? {
         val response = network.load { disneyApi.getCharacter(id) }
         val data = response.data ?: return null

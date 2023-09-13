@@ -51,6 +51,7 @@ android {
 }
 
 dependencies {
+    implementation("androidx.room:room-common:2.5.2")
     val nav_version = "2.5.3"
 
     implementation("io.coil-kt:coil-compose:2.4.0")

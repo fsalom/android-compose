@@ -9,6 +9,8 @@ import retrofit2.http.Query
 interface DisneyApiInterFace {
     @GET("character")
     suspend fun getCharacters(@Query("page") page: Int): Response<DisneyInfoDTO>
+    @GET("character")
+    suspend fun getCharactersFor(@Query("test") text: String, @Query("page") page: Int): Response<DisneyInfoDTO>
     @GET("character/{id}")
     suspend fun getCharacter(@Path("id") id: Int): Response<DisneySingleInfoDTO>
 }

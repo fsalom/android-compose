@@ -17,6 +17,11 @@ class RemoteCharactersDataSource(
         return response.toDomain()
     }
 
+    override suspend fun getPaginationFor(text: String, page: Int): Pagination {
+        val response = network.load { characterApi.getCharactersFor(text, page) }
+        return response.toDomain()
+    }
+
     override suspend fun getCharacterWith(id: Int): Character? {
         val response = network.load { characterApi.getCharacter(id) }
         return response.toDomain()

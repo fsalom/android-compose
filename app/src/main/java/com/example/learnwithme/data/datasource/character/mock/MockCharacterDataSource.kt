@@ -12,9 +12,23 @@ class MockCharacterDataSource(
         status = "Estado",
         species = "Especie",
         image = "https://qph.cf2.quoracdn.net/main-qimg-e43af1ea0978af7da031068531f8967b-lq")
+    val character2 = Character(
+        id = 2,
+        name = "Test",
+        status = "Estado",
+        species = "Especie",
+        image = "https://qph.cf2.quoracdn.net/main-qimg-e43af1ea0978af7da031068531f8967b-lq")
     override suspend fun getPagination(page: Int): Pagination {
         val characters = listOf<Character>(
-            character
+            character, character2
+        )
+
+        return Pagination(hasNextPage = false, characters = characters)
+    }
+
+    override suspend fun getPaginationFor(text: String, page: Int): Pagination {
+        val characters = listOf<Character>(
+            character, character2
         )
 
         return Pagination(hasNextPage = false, characters = characters)
