@@ -13,10 +13,13 @@ import kotlinx.coroutines.launch
 
 interface ListCharactersViewModelInterface {
     fun load()
+    fun searchThis(text: String)
+    fun filterWith(text: String)
     val uiState: StateFlow<CharactersUiState>
 }
 
 data class CharactersUiState(
+    val originalItems: List<Character> = mutableListOf(),
     val items: List<Character> = mutableListOf(),
     val isLoading: Boolean = false
 )
@@ -40,11 +43,30 @@ class ListCharactersViewModel(private val useCase: CharacterUseCaseInterface):
                 _uiState.update {
                     it.copy(
                         isLoading = false,
-                        items = it.items + result.second
+                        items = it.items + result.second,
+                        originalItems = it.items + result.second
                     )
                 }
                 _uiState.emit(uiState.value)
             }
+        }
+    }
+
+    override fun searchThis(text: String) {
+        viewModelScope.launch {
+
+        }
+    }
+
+    override fun filterWith(text: String) {
+        viewModelScope.launch {
+            _uiState.update { state ->
+                state.copy(
+                    isLoading = false,
+                    items = state.originalItems.filter { it.name.contains(text, ignoreCase = true) }
+                )
+            }
+            _uiState.emit(uiState.value)
         }
     }
 }
