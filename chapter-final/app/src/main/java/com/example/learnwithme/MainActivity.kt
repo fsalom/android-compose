@@ -54,7 +54,7 @@ class MainActivity : ComponentActivity() {
             network = NetworkManager()
         )
 
-        val dataSource = mockDatasource
+        val dataSource = rickandmortyDatasource
 
         val vm = ListCharactersViewModel(
             useCase =  CharacterUseCase(
