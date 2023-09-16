@@ -51,22 +51,17 @@ fun ListCharactersView(viewModel: ListCharactersViewModelInterface,
         CustomProgressIndicator()
         viewModel.load()
     }
-    Column {
-        SearchBar(search = {
-            viewModel.filterWith(it)
-        })
-        InfiniteScroll(
-            itemCount = uiState.items.size,
-            loadMoreItems = {
-                viewModel.load()
-            }) {
-            CharacterRow(uiState.items[it.first], navController = navController)
-            if (it.second) {
-                CustomProgressIndicator()
-            }
+
+    InfiniteScroll(
+        itemCount = uiState.items.size,
+        loadMoreItems = {
+            viewModel.load()
+        }) {
+        CharacterRow(uiState.items[it.first], navController = navController)
+        if (it.second) {
+            CustomProgressIndicator()
         }
     }
-
 }
 
 @Composable
