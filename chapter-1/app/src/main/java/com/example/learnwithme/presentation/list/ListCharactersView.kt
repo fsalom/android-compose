@@ -42,8 +42,8 @@ import com.example.learnwithme.domain.entity.Character
 import kotlinx.coroutines.delay
 
 @Composable
-fun ListCharactersView(viewModel: ListCharactersViewModelInterface,
-                       navController: NavHostController
+fun ListCharactersView(
+    viewModel: ListCharactersViewModelInterface
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -57,7 +57,7 @@ fun ListCharactersView(viewModel: ListCharactersViewModelInterface,
         loadMoreItems = {
             viewModel.load()
         }) {
-        CharacterRow(uiState.items[it.first], navController = navController)
+        CharacterRow(uiState.items[it.first])
         if (it.second) {
             CustomProgressIndicator()
         }
@@ -105,14 +105,10 @@ fun InfiniteScroll(
 }
 
 @Composable
-fun CharacterRow(character: Character, navController: NavHostController) {
+fun CharacterRow(character: Character) {
     Card(modifier = Modifier
         .fillMaxWidth()
-        .padding(10.dp)
-        .clickable {
-            val id = character.id
-            navController.navigate("detail/$id")
-        }) {
+        .padding(10.dp)) {
         Row(modifier = Modifier.padding(all = 10.dp)) {
             AsyncImage(
                 model = character.image,
@@ -129,21 +125,4 @@ fun CharacterRow(character: Character, navController: NavHostController) {
             }
         }
     }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun SearchBar(search: (String) -> Unit) {
-    var text by remember { mutableStateOf("") }
-
-    TextField(
-        value = text,
-        onValueChange = {
-            text = it
-            search(text)
-                        },
-        label = { Text("Search") },
-        leadingIcon = { Icon(Icons.Filled.Search, contentDescription = null) },
-        modifier = Modifier.fillMaxWidth()
-    )
 }
