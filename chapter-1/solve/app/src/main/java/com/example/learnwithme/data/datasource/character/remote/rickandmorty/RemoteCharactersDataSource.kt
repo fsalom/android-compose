@@ -7,13 +7,9 @@ import com.example.learnwithme.domain.entity.Pagination
 import com.example.learnwithme.domain.entity.Character
 import com.example.learnwithme.manager.NetworkManager
 
-class RemoteCharactersDataSource(
-    private val characterApi: CharacterApiInterface,
-    private val network: NetworkManager
-): CharacterDataSourceInterface {
+class RemoteCharactersDataSource(): CharacterDataSourceInterface {
 
     override suspend fun getPagination(page: Int): Pagination {
-        val response = network.load { characterApi.getCharacters(page) }
-        return response.toDomain()
+        return Pagination(hasNextPage = false, characters = emptyList())
     }
 }

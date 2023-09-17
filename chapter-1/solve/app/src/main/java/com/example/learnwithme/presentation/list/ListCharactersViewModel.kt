@@ -17,7 +17,6 @@ interface ListCharactersViewModelInterface {
 }
 
 data class CharactersUiState(
-    val originalItems: List<Character> = mutableListOf(),
     val items: List<Character> = mutableListOf(),
     val isLoading: Boolean = false
 )
@@ -41,8 +40,7 @@ class ListCharactersViewModel(private val useCase: CharacterUseCaseInterface):
                 _uiState.update {
                     it.copy(
                         isLoading = false,
-                        items = it.items + result.second,
-                        originalItems = it.items + result.second
+                        items = it.items + result.second
                     )
                 }
                 _uiState.emit(uiState.value)

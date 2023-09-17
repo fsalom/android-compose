@@ -24,23 +24,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val rickandmortyDatasource = RemoteCharactersDataSource(
-            characterApi = Retrofit.Builder()
-                .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl("https://rickandmortyapi.com/")
-                .client(OkHttpClient())
-                .build().create(CharacterApiInterface::class.java),
-            network = NetworkManager()
-        )
-
-        val vm = ListCharactersViewModel(
-            useCase =  CharacterUseCase(
-                repository = CharacterRepository(
-                    dataSource = rickandmortyDatasource
-                )
-            )
-        )
-
         setContent {
             LearnWithMeTheme {
                 // A surface container using the 'background' color from the theme
@@ -48,7 +31,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    ListCharactersView(viewModel = vm)
+                    ListCharactersView()
                 }
             }
         }

@@ -42,26 +42,8 @@ import com.example.learnwithme.domain.entity.Character
 import kotlinx.coroutines.delay
 
 @Composable
-fun ListCharactersView(
-    viewModel: ListCharactersViewModelInterface
-) {
-    val uiState by viewModel.uiState.collectAsState()
-
-    if (uiState.isLoading) {
-        CustomProgressIndicator()
-        viewModel.load()
-    }
-
-    InfiniteScroll(
-        itemCount = uiState.items.size,
-        loadMoreItems = {
-            viewModel.load()
-        }) {
-        CharacterRow(uiState.items[it.first])
-        if (it.second) {
-            CustomProgressIndicator()
-        }
-    }
+fun ListCharactersView() {
+    CustomProgressIndicator()
 }
 
 @Composable
