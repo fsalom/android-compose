@@ -17,7 +17,6 @@ interface ListCharactersViewModelInterface {
 }
 
 data class CharactersUiState(
-    val originalItems: List<Character> = mutableListOf(),
     val items: List<Character> = mutableListOf(),
     val isLoading: Boolean = false
 )
@@ -25,27 +24,19 @@ data class CharactersUiState(
 class ListCharactersViewModel(private val useCase: CharacterUseCaseInterface):
     ListCharactersViewModelInterface,
     ViewModel() {
-    private var page = 1
-    private var hasNextPage = true
 
     private val _uiState = MutableStateFlow(CharactersUiState(isLoading = true))
     override val uiState: StateFlow<CharactersUiState> = _uiState.asStateFlow()
 
     override fun load() {
         viewModelScope.launch {
-            if (hasNextPage) {
-                val result = useCase.getNextPageAndCharacters(page)
-                delay(3000)
-                hasNextPage = result.first
-                page += if (hasNextPage) 1 else 0
-                _uiState.update {
-                    it.copy(
-                        isLoading = false,
-                        items = it.items + result.second,
-                        originalItems = it.items + result.second
-                    )
-                }
-                _uiState.emit(uiState.value)
+            val result = useCase.getNextPageAndCharacters(1)
+            delay(3000)
+            _uiState.update {
+                it.copy(
+                    isLoading = false,
+                    items = it.items + result.second
+                )
             }
         }
     }
