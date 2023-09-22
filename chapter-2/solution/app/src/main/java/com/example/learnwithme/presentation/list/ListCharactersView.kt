@@ -52,9 +52,6 @@ fun ListCharactersView(viewModel: ListCharactersViewModelInterface,
         viewModel.load()
     }
     Column {
-        SearchBar(search = {
-            viewModel.filterWith(it)
-        })
         InfiniteScroll(
             itemCount = uiState.items.size,
             loadMoreItems = {
