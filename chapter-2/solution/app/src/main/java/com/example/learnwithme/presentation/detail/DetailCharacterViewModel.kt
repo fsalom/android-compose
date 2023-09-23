@@ -32,13 +32,13 @@ class DetailCharactersViewModel(private val id: Int,
     override fun load() {
         viewModelScope.launch {
             val character = useCase.getCharacterWith(id)
+            delay(3000)
             _uiState.update {
                 it.copy(
                     isLoading = false,
                     character = character
                 )
             }
-            //_uiState.emit(uiState.value)
         }
     }
 }

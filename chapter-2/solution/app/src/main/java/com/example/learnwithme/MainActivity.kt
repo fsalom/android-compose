@@ -24,6 +24,8 @@ import com.example.learnwithme.presentation.detail.DetailCharactersView
 import com.example.learnwithme.presentation.detail.DetailCharactersViewModel
 import com.example.learnwithme.presentation.list.ListCharactersView
 import com.example.learnwithme.presentation.list.ListCharactersViewModel
+import com.example.learnwithme.presentation.navigation.AppNavHost
+import com.example.learnwithme.presentation.navigation.Screen
 import com.example.learnwithme.ui.theme.LearnWithMeTheme
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -34,36 +36,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val mockDatasource = MockCharacterDataSource()
-
-        val rickandmortyDatasource = RemoteCharactersDataSource(
-            characterApi = Retrofit.Builder()
-                .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl("https://rickandmortyapi.com/")
-                .client(OkHttpClient())
-                .build().create(CharacterApiInterface::class.java),
-            network = NetworkManager()
-        )
-
-        val disneyDatasource = RemoteDisneyCharactersDataSource(
-            disneyApi = Retrofit.Builder()
-                .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl("https://api.disneyapi.dev/")
-                .client(OkHttpClient())
-                .build().create(DisneyApiInterFace::class.java),
-            network = NetworkManager()
-        )
-
-        val dataSource = rickandmortyDatasource
-
-        val vm = ListCharactersViewModel(
-            useCase =  CharacterUseCase(
-                repository = CharacterRepository(
-                    dataSource = dataSource
-                )
-            )
-        )
-
         setContent {
             val navController = rememberNavController()
             LearnWithMeTheme {
@@ -72,33 +44,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    NavHost(navController = navController, startDestination = "home") {
-                        composable("home") {
-                            ListCharactersView(viewModel = vm, navController = navController)
-                        }
-                        composable(
-                            route="detail/{id}",
-                            arguments = listOf(
-                                navArgument("id") {
-                                    /* configuring arguments for navigation */
-                                    type = NavType.IntType
-                                }
-                            )
-                        ) { navBackStackEntry->
-                            val character = navBackStackEntry.arguments?.getInt("id")?.let { it }
-                            if (character != null) {
-                                val vm = DetailCharactersViewModel(
-                                    id = character,
-                                    useCase =  CharacterUseCase(
-                                        repository = CharacterRepository(
-                                            dataSource = dataSource
-                                        )
-                                    )
-                                )
-                                DetailCharactersView(viewModel = vm)
-                            }
-                        }
-                    }
+                    AppNavHost(navController = navController, startDestination = Screen.CharacterList.route)
                 }
             }
         }

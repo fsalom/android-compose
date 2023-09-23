@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.example.learnwithme.domain.entity.Character
+import com.example.learnwithme.presentation.navigation.Screen
 
 @Composable
 fun CharacterRow(character: Character, navController: NavHostController) {
@@ -30,7 +31,7 @@ fun CharacterRow(character: Character, navController: NavHostController) {
         .padding(10.dp)
         .clickable {
             val id = character.id
-            navController.navigate("detail/$id")
+            navController.navigate(Screen.CharacterDetail.getRouteFor(id = id))
         }) {
         Row(modifier = Modifier.padding(all = 10.dp)) {
             AsyncImage(
