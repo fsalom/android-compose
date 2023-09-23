@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.learnwithme.domain.usecase.CharacterUseCaseInterface
 import com.example.learnwithme.domain.entity.Character
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -17,7 +18,7 @@ interface ListCharactersViewModelInterface {
 
 data class CharactersUiState(
     val items: List<Character> = mutableListOf(),
-    val isLoading: Boolean = false
+    val isLoading: Boolean
 )
 
 class ListCharactersViewModel(private val useCase: CharacterUseCaseInterface):
@@ -35,6 +36,7 @@ class ListCharactersViewModel(private val useCase: CharacterUseCaseInterface):
                 val result = useCase.getNextPageAndCharacters(page)
                 hasNextPage = result.first
                 page += if (hasNextPage) 1 else 0
+                delay(3000)
                 _uiState.update {
                     it.copy(
                         isLoading = false,
