@@ -13,15 +13,12 @@ import kotlinx.coroutines.launch
 
 interface ListCharactersViewModelInterface {
     fun load()
-    fun searchThis(text: String)
-    fun filterWith(text: String)
     val uiState: StateFlow<CharactersUiState>
 }
 
 data class CharactersUiState(
-    val originalItems: List<Character> = mutableListOf(),
     val items: List<Character> = mutableListOf(),
-    val isLoading: Boolean = false
+    val isLoading: Boolean
 )
 
 class ListCharactersViewModel(private val useCase: CharacterUseCaseInterface):
@@ -37,36 +34,16 @@ class ListCharactersViewModel(private val useCase: CharacterUseCaseInterface):
         viewModelScope.launch {
             if (hasNextPage) {
                 val result = useCase.getNextPageAndCharacters(page)
-                delay(3000)
                 hasNextPage = result.first
                 page += if (hasNextPage) 1 else 0
+                delay(3000)
                 _uiState.update {
                     it.copy(
                         isLoading = false,
                         items = it.items + result.second,
-                        originalItems = it.items + result.second
                     )
                 }
-                _uiState.emit(uiState.value)
             }
-        }
-    }
-
-    override fun searchThis(text: String) {
-        viewModelScope.launch {
-
-        }
-    }
-
-    override fun filterWith(text: String) {
-        viewModelScope.launch {
-            _uiState.update { state ->
-                state.copy(
-                    isLoading = false,
-                    items = state.originalItems.filter { it.name.contains(text, ignoreCase = true) }
-                )
-            }
-            _uiState.emit(uiState.value)
         }
     }
 }

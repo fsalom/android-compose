@@ -7,8 +7,12 @@ import retrofit2.Response
 import java.io.IOException
 import java.net.SocketTimeoutException
 
-class NetworkManagerA {
-    suspend fun <T> load(call: suspend () -> Response<T>): T {
+interface NetworkInterface {
+    suspend fun <T> load(call: suspend () -> Response<T>): T
+}
+
+class NetworkManager: NetworkInterface {
+    override suspend fun <T> load(call: suspend () -> Response<T>): T {
         try {
             val response = call()
             response.body()?.let { body ->
