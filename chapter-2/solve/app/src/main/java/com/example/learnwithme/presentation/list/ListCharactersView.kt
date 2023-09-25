@@ -10,9 +10,7 @@ import com.example.learnwithme.presentation.customview.CustomProgressIndicator
 import com.example.learnwithme.presentation.list.customview.CharacterRow
 
 @Composable
-fun ListCharactersView(viewModel: ListCharactersViewModelInterface,
-                       navController: NavHostController
-) {
+fun ListCharactersView(viewModel: ListCharactersViewModelInterface) {
     val uiState by viewModel.uiState.collectAsState()
 
     if (uiState.isLoading) {
@@ -24,13 +22,7 @@ fun ListCharactersView(viewModel: ListCharactersViewModelInterface,
         val listState = rememberLazyListState()
         LazyColumn(state = listState) {
             items(uiState.items.size) { index ->
-                CharacterRow(uiState.items[index], navController = navController)
-                var isLoading = index == uiState.items.size - 1
-                if (isLoading) {
-                    CustomProgressIndicator()
-                    viewModel.load()
-                }
-
+                CharacterRow(uiState.items[index])
             }
         }
     }

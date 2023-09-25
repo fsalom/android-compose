@@ -25,14 +25,11 @@ import com.example.learnwithme.domain.entity.Character
 import com.example.learnwithme.presentation.navigation.Screen
 
 @Composable
-fun CharacterRow(character: Character, navController: NavHostController) {
+fun CharacterRow(character: Character) {
     Card(modifier = Modifier
         .fillMaxWidth()
         .padding(10.dp)
-        .clickable {
-            val id = character.id
-            navController.navigate(Screen.CharacterDetail.getRouteFor(id = id))
-        }) {
+    ) {
         Row(modifier = Modifier.padding(all = 10.dp)) {
             AsyncImage(
                 model = character.image,

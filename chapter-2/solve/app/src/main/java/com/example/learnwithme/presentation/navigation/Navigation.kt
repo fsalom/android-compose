@@ -24,41 +24,7 @@ fun AppNavHost(
     navController: NavHostController,
     startDestination: String,
 ) {
-    val rickDatasource = RemoteCharactersDataSource(
-        characterApi = Retrofit.Builder()
-            .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl("https://rickandmortyapi.com/")
-            .client(OkHttpClient())
-            .build().create(CharacterApiInterface::class.java),
-        network = NetworkManager()
-    )
-    val repository = CharacterRepository(dataSource = rickDatasource)
-    val useCase = CharacterUseCase(repository = repository)
-    val vm = ListCharactersViewModel(useCase = useCase)
 
-    NavHost(
-        navController = navController,
-        startDestination = startDestination
-    ) {
-        composable(Screen.CharacterList.route) {
-            ListCharactersView(viewModel = vm, navController = navController)
-        }
-        composable(
-            route=Screen.CharacterDetail.route,
-            arguments = listOf(
-                navArgument("id") {
-                    type = NavType.IntType
-                }
-            )
-        ) { navBackStackEntry->
-            val character = navBackStackEntry.arguments?.getInt("id")?.let { it }
-            if (character != null) {
-                val vm = DetailCharactersViewModel(
-                    id = character,
-                    useCase =  useCase
-                )
-                DetailCharactersView(viewModel = vm)
-            }
-        }
-    }
+
+    //navHost
 }
