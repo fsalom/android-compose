@@ -7,6 +7,9 @@ import retrofit2.Response
 import java.io.IOException
 import java.net.SocketTimeoutException
 
+interface  NetworkInterface {
+    suspend fun <T> load(call: suspend () -> Response<T>): T
+}
 class NetworkManager {
     suspend fun <T> load(call: suspend () -> Response<T>): T {
         try {
