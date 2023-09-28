@@ -54,7 +54,12 @@ class ListCharactersViewModel(private val useCase: CharacterUseCaseInterface):
 
     override fun searchThis(text: String) {
         viewModelScope.launch {
-
+            _uiState.update { state ->
+                state.copy(
+                    isLoading = false,
+                    items = state.originalItems.filter { it.name.contains(text, ignoreCase = true) }
+                )
+            }
         }
     }
 
@@ -66,7 +71,6 @@ class ListCharactersViewModel(private val useCase: CharacterUseCaseInterface):
                     items = state.originalItems.filter { it.name.contains(text, ignoreCase = true) }
                 )
             }
-            _uiState.emit(uiState.value)
         }
     }
 }
