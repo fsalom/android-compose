@@ -20,7 +20,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.example.learnwithme.presentation.custonviews.CustomProgressIndicator
+import com.example.learnwithme.presentation.components.CustomProgressIndicator
 
 @Composable
 fun DetailCharactersView(

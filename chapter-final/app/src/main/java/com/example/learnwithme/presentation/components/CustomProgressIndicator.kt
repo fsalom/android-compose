@@ -1,4 +1,4 @@
-package com.example.learnwithme.presentation.custonviews
+package com.example.learnwithme.presentation.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
