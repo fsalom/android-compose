@@ -17,7 +17,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
-import com.example.learnwithme.presentation.custonviews.CustomProgressIndicator
+import com.example.learnwithme.presentation.components.CustomProgressIndicator
 import com.example.learnwithme.presentation.list.customview.CharacterRow
 
 @Composable
@@ -32,7 +32,7 @@ fun ListCharactersView(viewModel: ListCharactersViewModelInterface,
     }
     Column {
         SearchBar(search = {
-            viewModel.filterWith(it)
+            viewModel.searchThis(it)
         })
         val listState = rememberLazyListState()
         LazyColumn(state = listState) {
@@ -43,11 +43,9 @@ fun ListCharactersView(viewModel: ListCharactersViewModelInterface,
                     CustomProgressIndicator()
                     viewModel.load()
                 }
-
             }
         }
     }
-
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

@@ -19,7 +19,6 @@ interface ListCharactersViewModelInterface {
 }
 
 data class CharactersUiState(
-    val originalItems: List<Character> = mutableListOf(),
     val items: List<Character> = mutableListOf(),
     val isLoading: Boolean = false
 )
@@ -29,6 +28,11 @@ class ListCharactersViewModel(private val useCase: CharacterUseCaseInterface):
     ViewModel() {
     private var page = 1
     private var hasNextPage = true
+    private var searchText: String = ""
+    private var isSearching = searchText.isNotEmpty()
+    private var originalItems: List<Character> = mutableListOf()
+    private var originalHasNextPage: Boolean = true
+    private var originalPage = 1
 
     private val _uiState = MutableStateFlow(CharactersUiState(isLoading = true))
     override val uiState: StateFlow<CharactersUiState> = _uiState.asStateFlow()
@@ -36,7 +40,12 @@ class ListCharactersViewModel(private val useCase: CharacterUseCaseInterface):
     override fun load() {
         viewModelScope.launch {
             if (hasNextPage) {
-                val result = useCase.getNextPageAndCharacters(page)
+                val result: Pair<Boolean, List<Character>> = if (searchText.isNotEmpty()) {
+                    useCase.getNextPageAndCharacters(page)
+                } else {
+                    useCase.getNextPageAndCharactersWith(searchText, page)
+                }
+
                 delay(3000)
                 hasNextPage = result.first
                 page += if (hasNextPage) 1 else 0
@@ -44,23 +53,41 @@ class ListCharactersViewModel(private val useCase: CharacterUseCaseInterface):
                     it.copy(
                         isLoading = false,
                         items = it.items + result.second,
-                        originalItems = it.items + result.second
                     )
                 }
-                _uiState.emit(uiState.value)
             }
         }
     }
 
-    override fun searchThis(text: String) {
-        viewModelScope.launch {
-            _uiState.update { state ->
-                state.copy(
-                    isLoading = false,
-                    items = state.originalItems.filter { it.name.contains(text, ignoreCase = true) }
-                )
-            }
+    private fun saveOriginalInformation() {
+        originalItems = uiState.value.items
+        originalPage = page
+        originalHasNextPage = hasNextPage
+        page = 1
+        hasNextPage = true
+    }
+    private fun restoreOriginalInformation() {
+        _uiState.update {
+            it.copy(
+                isLoading = false,
+                items = originalItems
+            )
         }
+        page = originalPage
+        hasNextPage = originalHasNextPage
+        originalItems = emptyList()
+        originalPage = 1
+    }
+
+    override fun searchThis(text: String) {
+        searchText = text
+        if(isSearching && originalPage == 1 && originalItems.isEmpty()) {
+            saveOriginalInformation()
+        }
+        if(searchText.isEmpty()){
+            restoreOriginalInformation()
+        }
+        load()
     }
 
     override fun filterWith(text: String) {
@@ -68,7 +95,7 @@ class ListCharactersViewModel(private val useCase: CharacterUseCaseInterface):
             _uiState.update { state ->
                 state.copy(
                     isLoading = false,
-                    items = state.originalItems.filter { it.name.contains(text, ignoreCase = true) }
+                    items = originalItems.filter { it.name.contains(text, ignoreCase = true) }
                 )
             }
         }
