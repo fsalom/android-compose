@@ -19,7 +19,7 @@ interface ListCharactersViewModelInterface {
 }
 
 data class CharactersUiState(
-    val items: List<Character> = mutableListOf(),
+    var items: List<Character> = mutableListOf(),
     val isLoading: Boolean = false
 )
 
@@ -42,14 +42,13 @@ class ListCharactersViewModel(private val useCase: CharacterUseCaseInterface):
     override fun load() {
         viewModelScope.launch {
             if (hasNextPage) {
-                val result: Pair<Boolean, List<Character>> = if (searchText.isNotEmpty()) {
-                    useCase.getNextPageAndCharacters(page)
-                } else {
-                    useCase.getNextPageAndCharactersWith(searchText, page)
-                }
+                    val result: Pair<Boolean, List<Character>> = if (searchText.isNotEmpty()) {
+                        useCase.getNextPageAndCharactersWith(searchText, page)
+                    } else {
+                        useCase.getNextPageAndCharacters(page)
+                    }
 
-                delay(3000)
-                hasNextPage = result.first
+                    hasNextPage = result.first
                 page += if (hasNextPage) 1 else 0
                 _uiState.update {
                     it.copy(
@@ -88,6 +87,14 @@ class ListCharactersViewModel(private val useCase: CharacterUseCaseInterface):
         }
         if(searchText.isEmpty()){
             restoreOriginalInformation()
+        }
+        page = 1
+        hasNextPage = true
+        _uiState.update {
+            it.copy(
+                isLoading = false,
+                items = emptyList(),
+            )
         }
         load()
     }

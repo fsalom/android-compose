@@ -12,7 +12,7 @@ interface CharacterApiInterface {
     suspend fun getCharacters(@Query("page") page: Int): Response<CharactersInfoDTO>
 
     @GET("api/character")
-    suspend fun getCharactersFor(@Query("text") text: String, @Query("page") page: Int): Response<CharactersInfoDTO>
+    suspend fun getCharactersFor(@Query("name") text: String, @Query("page") page: Int): Response<CharactersInfoDTO>
 
     @GET("api/character/{id}")
     suspend fun getCharacter(@Path("id") id: Int): Response<CharacterDTO>
