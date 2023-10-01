@@ -29,7 +29,9 @@ class ListCharactersViewModel(private val useCase: CharacterUseCaseInterface):
     private var page = 1
     private var hasNextPage = true
     private var searchText: String = ""
-    private var isSearching = searchText.isNotEmpty()
+    private val isSearching: Boolean
+        get() = searchText.isNotEmpty()
+
     private var originalItems: List<Character> = mutableListOf()
     private var originalHasNextPage: Boolean = true
     private var originalPage = 1
