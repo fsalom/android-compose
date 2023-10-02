@@ -30,6 +30,7 @@ fun ListCharactersView(viewModel: ListCharactersViewModelInterface,
         CustomProgressIndicator()
         viewModel.load()
     }
+
     Column {
         SearchBar(search = {
             viewModel.searchThis(it)
@@ -59,7 +60,7 @@ fun SearchBar(search: (String) -> Unit) {
             text = it
             search(text)
                         },
-        label = { Text("Search") },
+        label = { Text("Búsqueda") },
         leadingIcon = { Icon(Icons.Filled.Search, contentDescription = null) },
         modifier = Modifier.fillMaxWidth()
     )
