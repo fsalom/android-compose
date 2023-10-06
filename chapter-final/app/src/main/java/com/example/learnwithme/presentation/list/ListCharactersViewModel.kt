@@ -29,8 +29,6 @@ class ListCharactersViewModel(private val useCase: CharacterUseCaseInterface):
     private var page = 1
     private var hasNextPage = true
     private var searchText: String = ""
-    private val isSearching: Boolean
-        get() = searchText.isNotEmpty()
 
     private var originalItems: List<Character> = mutableListOf()
     private var originalHasNextPage: Boolean = true
@@ -82,7 +80,7 @@ class ListCharactersViewModel(private val useCase: CharacterUseCaseInterface):
 
     override fun searchThis(text: String) {
         searchText = text
-        if(isSearching && originalPage == 1 && originalItems.isEmpty()) {
+        if(searchText.isNotEmpty() && originalPage == 1 && originalItems.isEmpty()) {
             saveOriginalInformation()
         }
         if(searchText.isEmpty()){
