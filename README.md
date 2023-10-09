@@ -12,4 +12,4 @@ Jetpack Compose es el kit de herramientas moderno de Android para compilar IU na
 - Capítulo 1: [Listado, arquitectura y llamadas](chapter-1/README.md)
 - Capítulo 2: [Scroll infinito y Detalle](chapter-2/README.md)
 - Capítulo 3: [Búsqueda](chapter-3/README.md)
-- Capítulo 4: [Favoritos y distintos dataources](chapter-4/README.md)
+- Capítulo 4: [Favoritos y distintos datasources](chapter-4/README.md)
