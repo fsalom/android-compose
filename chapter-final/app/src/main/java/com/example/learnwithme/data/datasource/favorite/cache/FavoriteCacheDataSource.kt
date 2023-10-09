@@ -1,19 +1,25 @@
 package com.example.learnwithme.data.datasource.favorite.cache
 
-import android.content.SharedPreferences
 import com.example.learnwithme.data.datasource.favorite.FavoriteCharacterDataSourceInterface
 import com.example.learnwithme.domain.entity.Character
+import com.example.learnwithme.manager.cache.SharedPreferenceManager
 
-class FavoriteCacheDataSource(sharedPreferences: SharedPreferences): FavoriteCharacterDataSourceInterface {
+class FavoriteCacheDataSource(private val sharedPreferenceManager: SharedPreferenceManager): FavoriteCharacterDataSourceInterface {
+    private val charactersKey = "charactersKey"
     override suspend fun saveThis(character: Character) {
-        TODO("Not yet implemented")
+        var characters = getCharacters()
+        characters.toMutableList().add(character)
+        sharedPreferenceManager.save(characters, charactersKey)
     }
 
     override suspend fun deleteThis(character: Character) {
-        TODO("Not yet implemented")
+        var characters: List<Character> = getCharacters()
+        characters.toMutableList().removeAll { it.id == character.id }
+        sharedPreferenceManager.save(characters, charactersKey)
     }
 
     override suspend fun getCharacters(): List<Character> {
-        TODO("Not yet implemented")
+        var characters = sharedPreferenceManager.retrieve<List<Character>>(charactersKey)
+        return  characters ?: emptyList()
     }
 }
