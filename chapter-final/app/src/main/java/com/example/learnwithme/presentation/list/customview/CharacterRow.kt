@@ -1,14 +1,20 @@
 package com.example.learnwithme.presentation.list.customview
 
+import android.widget.Space
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -46,6 +52,12 @@ fun CharacterRow(character: Character, navController: NavHostController) {
             Column(modifier = Modifier.padding(all = 10.dp)) {
                 Text(text = character.name, style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 16.sp))
                 Text(text = character.species)
+            }
+            Spacer(modifier = Modifier.weight(1f))
+            IconButton(onClick = {
+                println("click")
+            }) {
+                Icon(imageVector = Icons.Outlined.FavoriteBorder, contentDescription = "favorite_off")
             }
         }
     }
