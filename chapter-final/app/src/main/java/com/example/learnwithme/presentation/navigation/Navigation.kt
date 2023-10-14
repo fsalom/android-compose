@@ -11,9 +11,11 @@ import com.example.learnwithme.data.datasource.character.remote.disney.RemoteDis
 import com.example.learnwithme.data.datasource.character.remote.disney.api.DisneyApiInterFace
 import com.example.learnwithme.data.datasource.character.remote.rickandmorty.RemoteCharactersDataSource
 import com.example.learnwithme.data.datasource.character.remote.rickandmorty.api.CharacterApiInterface
+import com.example.learnwithme.data.datasource.favorite.cache.FavoriteCacheDataSource
 import com.example.learnwithme.data.repository.CharacterRepository
 import com.example.learnwithme.domain.usecase.CharacterUseCase
 import com.example.learnwithme.manager.NetworkManager
+import com.example.learnwithme.manager.cache.SharedPreferenceManager
 import com.example.learnwithme.presentation.detail.DetailCharactersView
 import com.example.learnwithme.presentation.detail.DetailCharactersViewModel
 import com.example.learnwithme.presentation.list.ListCharactersView
@@ -47,9 +49,14 @@ fun AppNavHost(
         network = NetworkManager()
     )
 
-    val dataSource = rickandmortyDatasource
+    val favoriteDatasource = FavoriteCacheDataSource(
+        sharedPreferenceManager = SharedPreferenceManager
+    )
+
+    val characterDataSource = rickandmortyDatasource
     val repository = CharacterRepository(
-        dataSource = dataSource
+        characterDataSource = characterDataSource,
+        favoriteDatasource = favoriteDatasource
     )
     val useCase = CharacterUseCase(repository = repository)
     val vm = ListCharactersViewModel(useCase =  useCase)
