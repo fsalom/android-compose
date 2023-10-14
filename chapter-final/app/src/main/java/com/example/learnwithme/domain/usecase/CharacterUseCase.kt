@@ -22,4 +22,17 @@ class CharacterUseCase(val repository: CharacterRepositoryInterface): CharacterU
     override suspend fun getCharacterWith(id: Int): Character? {
         return repository.getCharacterWith(id)
     }
+
+    override suspend fun saveFavorite(character: Character) {
+        repository.saveFavorite(character)
+    }
+
+    override suspend fun deleteFavorite(character: Character) {
+        repository.deleteFavorite(character)
+    }
+
+    override suspend fun getFavoriteCharacters(): List<Character> {
+        return repository.getFavoriteCharacters()
+    }
+
 }
