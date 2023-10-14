@@ -28,5 +28,9 @@ class CharacterRepository(val characterDataSource: CharacterDataSourceInterface,
         favoriteDatasource.deleteThis(character)
     }
 
+    override suspend fun getFavoriteCharacters(): List<Character> {
+        return favoriteDatasource.getCharacters()
+    }
+
 
 }

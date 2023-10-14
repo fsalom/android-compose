@@ -9,4 +9,5 @@ interface CharacterRepositoryInterface {
     suspend fun getCharacterWith(id: Int): Character?
     suspend fun saveFavorite(character: Character)
     suspend fun deleteFavorite(character: Character)
+    suspend fun getFavoriteCharacters(): List<Character>
 }
