@@ -35,4 +35,15 @@ class CharacterUseCase(val repository: CharacterRepositoryInterface): CharacterU
         return repository.getFavoriteCharacters()
     }
 
+    override suspend fun setFavorites(characters: List<Character>): List<Character> {
+        val favoriteCharacters = this.getFavoriteCharacters()
+        val favoritesIds = favoriteCharacters.map { it.id }
+        characters.forEach {
+            if (it.id in favoritesIds) {
+                it.isFavorite = true
+            }
+        }
+        return characters
+    }
+
 }

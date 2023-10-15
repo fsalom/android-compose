@@ -9,4 +9,5 @@ interface CharacterUseCaseInterface {
     suspend fun saveFavorite(character: Character)
     suspend fun deleteFavorite(character: Character)
     suspend fun getFavoriteCharacters(): List<Character>
+    suspend fun setFavorites(characters: List<Character> ): List<Character>
 }
