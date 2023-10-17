@@ -15,6 +15,7 @@ interface ListCharactersViewModelInterface {
     fun load()
     fun searchThis(text: String)
     fun filterWith(text: String)
+    fun setFavorite(character: Character)
     val uiState: StateFlow<CharactersUiState>
 }
 
@@ -103,6 +104,22 @@ class ListCharactersViewModel(private val useCase: CharacterUseCaseInterface):
                 state.copy(
                     isLoading = false,
                     items = originalItems.filter { it.name.contains(text, ignoreCase = true) }
+                )
+            }
+        }
+    }
+
+    override fun setFavorite(character: Character) {
+        viewModelScope.launch {
+            if (character.isFavorite) {
+                useCase.deleteFavorite(character = character)
+            } else {
+                useCase.saveFavorite(character = character)
+            }
+            _uiState.update {
+                it.copy(
+                    isLoading = false,
+                    items = useCase.setFavorites(it.items),
                 )
             }
         }

@@ -38,7 +38,9 @@ fun ListCharactersView(viewModel: ListCharactersViewModelInterface,
         val listState = rememberLazyListState()
         LazyColumn(state = listState) {
             items(uiState.items.size) { index ->
-                CharacterRow(uiState.items[index], navController = navController)
+                CharacterRow(uiState.items[index], navController = navController, click = {
+                    viewModel.setFavorite(character = it)
+                })
                 var isLoading = index == uiState.items.size - 1
                 if (isLoading) {
                     CustomProgressIndicator()
