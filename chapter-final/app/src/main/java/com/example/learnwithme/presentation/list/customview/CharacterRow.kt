@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
@@ -31,7 +32,7 @@ import com.example.learnwithme.domain.entity.Character
 import com.example.learnwithme.presentation.navigation.Screen
 
 @Composable
-fun CharacterRow(character: Character, navController: NavHostController) {
+fun CharacterRow(character: Character, navController: NavHostController, click: (Character) -> Unit) {
     Card(modifier = Modifier
         .fillMaxWidth()
         .padding(10.dp)
@@ -55,9 +56,10 @@ fun CharacterRow(character: Character, navController: NavHostController) {
             }
             Spacer(modifier = Modifier.weight(1f))
             IconButton(onClick = {
-                println("click")
+                click(character)
             }) {
-                Icon(imageVector = Icons.Outlined.FavoriteBorder, contentDescription = "favorite_off")
+                var icon = if (character.isFavorite) Icons.Outlined.Favorite else Icons.Outlined.FavoriteBorder
+                Icon(imageVector = icon, contentDescription = "favorite")
             }
         }
     }
