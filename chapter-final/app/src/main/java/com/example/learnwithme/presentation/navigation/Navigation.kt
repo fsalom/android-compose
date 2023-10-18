@@ -1,6 +1,10 @@
 package com.example.learnwithme.presentation.navigation
 
+import android.app.Application
+import android.content.Context
+import android.content.SharedPreferences
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -12,10 +16,12 @@ import com.example.learnwithme.data.datasource.character.remote.disney.api.Disne
 import com.example.learnwithme.data.datasource.character.remote.rickandmorty.RemoteCharactersDataSource
 import com.example.learnwithme.data.datasource.character.remote.rickandmorty.api.CharacterApiInterface
 import com.example.learnwithme.data.datasource.favorite.cache.FavoriteCacheDataSource
+import com.example.learnwithme.data.datasource.favorite.datastore.FavoriteDataStoreDataSource
 import com.example.learnwithme.data.repository.CharacterRepository
 import com.example.learnwithme.domain.usecase.CharacterUseCase
 import com.example.learnwithme.manager.NetworkManager
 import com.example.learnwithme.manager.cache.SharedPreferenceManager
+import com.example.learnwithme.manager.datastore.DataStoreManager
 import com.example.learnwithme.presentation.detail.DetailCharactersView
 import com.example.learnwithme.presentation.detail.DetailCharactersViewModel
 import com.example.learnwithme.presentation.list.ListCharactersView
@@ -49,14 +55,16 @@ fun AppNavHost(
         network = NetworkManager()
     )
 
-    val favoriteDatasource = FavoriteCacheDataSource(
-        sharedPreferenceManager = SharedPreferenceManager
-    )
+    /*val favoriteDatasource = FavoriteCacheDataSource(
+        sharedPreferenceManager = SharedPreferenceManager(preferences = Application().getSharedPreferences("MAIN", Context.MODE_PRIVATE))
+    )*/
+
+    val favoriteDStoreDataSource = FavoriteDataStoreDataSource(dataStoreManager = DataStoreManager(context = LocalContext.current))
 
     val characterDataSource = rickandmortyDatasource
     val repository = CharacterRepository(
         characterDataSource = characterDataSource,
-        favoriteDatasource = favoriteDatasource
+        favoriteDatasource = favoriteDStoreDataSource
     )
     val useCase = CharacterUseCase(repository = repository)
     val vm = ListCharactersViewModel(useCase =  useCase)
