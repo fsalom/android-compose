@@ -8,7 +8,7 @@ class CharacterUseCase(val repository: CharacterRepositoryInterface): CharacterU
         page: Int
     ): Pair<Boolean, List<Character>> {
         var pagination = repository.getPagination(page)
-        return Pair(pagination.hasNextPage, pagination.characters)
+        return Pair(pagination.hasNextPage, setFavorites(pagination.characters))
     }
 
     override suspend fun getNextPageAndCharactersWith(
@@ -16,7 +16,7 @@ class CharacterUseCase(val repository: CharacterRepositoryInterface): CharacterU
         page: Int
     ): Pair<Boolean, List<Character>> {
         var pagination = repository.getPaginationFor(text, page)
-        return Pair(pagination.hasNextPage, pagination.characters)
+        return Pair(pagination.hasNextPage, setFavorites(pagination.characters))
     }
 
     override suspend fun getCharacterWith(id: Int): Character? {
