@@ -10,6 +10,7 @@ import com.google.gson.GsonBuilder
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import org.json.JSONObject
 
 val Context.userSettingsDataStore: DataStore<Preferences> by preferencesDataStore(name = "user_settings")
 
@@ -25,9 +26,11 @@ class DataStoreManager(val context: Context) {
 
     suspend inline fun <reified T> retrieve(key: String): T? {
         val wrappedKey = stringPreferencesKey(key)
-        val valueFlow: Flow<String> = context.userSettingsDataStore.data.map {
-            it[wrappedKey] ?: ""
+        var datastore = context.userSettingsDataStore.data.first()
+        if (datastore[wrappedKey] != null ) {
+            var newobject = GsonBuilder().create().fromJson(datastore[wrappedKey], T::class.java)
+            return newobject
         }
-        return GsonBuilder().create().fromJson(valueFlow.first(), T::class.java)
+        return null
     }
 }
