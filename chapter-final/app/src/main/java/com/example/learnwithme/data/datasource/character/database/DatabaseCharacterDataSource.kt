@@ -1,10 +1,12 @@
 package com.example.learnwithme.data.datasource.character.database
 
 import com.example.learnwithme.data.datasource.character.CharacterDataSourceInterface
+import com.example.learnwithme.data.datasource.character.database.query.CharacterDao
 import com.example.learnwithme.domain.entity.Character
 import com.example.learnwithme.domain.entity.Pagination
 
 class DatabaseCharacterDataSource(
+    val dao: CharacterDao
 ): CharacterDataSourceInterface {
     override suspend fun getPagination(page: Int): Pagination {
         TODO("Not yet implemented")
