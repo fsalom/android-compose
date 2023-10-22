@@ -2,6 +2,7 @@ package com.example.learnwithme.data.datasource.character.database.dbo
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.example.learnwithme.domain.entity.Character
 import com.example.learnwithme.manager.database.BaseEntity
 
 @Entity(tableName = "Characters")
@@ -12,3 +13,12 @@ data class CharacterEntity(
     val image: String? = null,
     override val id: Int
 ) : BaseEntity()
+
+fun CharacterEntity.toDomain(): Character =
+    Character(
+        id = id ?: 0,
+        name = name ?: "",
+        status = status ?: "",
+        species = species ?: "",
+        image = image ?: ""
+    )
