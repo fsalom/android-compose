@@ -11,7 +11,7 @@ data class CharacterEntity(
     val status: String? = null,
     val species: String? = null,
     val image: String? = null,
-    override val id: Int
+    @PrimaryKey override val id: Int
 ) : BaseEntity()
 
 fun CharacterEntity.toDomain(): Character =
