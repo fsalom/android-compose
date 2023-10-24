@@ -44,7 +44,10 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    AppNavHost(navController = navController, startDestination = Screen.CharacterList.route)
+                    AppNavHost(
+                        navController = navController,
+                        startDestination = Screen.CharacterList.route,
+                        context = applicationContext)
                 }
             }
         }
