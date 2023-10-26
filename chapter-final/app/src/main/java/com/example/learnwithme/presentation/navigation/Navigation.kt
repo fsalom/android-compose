@@ -1,8 +1,6 @@
 package com.example.learnwithme.presentation.navigation
 
-import android.app.Application
 import android.content.Context
-import android.content.SharedPreferences
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
@@ -15,12 +13,12 @@ import com.example.learnwithme.data.datasource.character.remote.disney.RemoteDis
 import com.example.learnwithme.data.datasource.character.remote.disney.api.DisneyApiInterFace
 import com.example.learnwithme.data.datasource.character.remote.rickandmorty.RemoteCharactersDataSource
 import com.example.learnwithme.data.datasource.character.remote.rickandmorty.api.CharacterApiInterface
-import com.example.learnwithme.data.datasource.favorite.cache.FavoriteCacheDataSource
+import com.example.learnwithme.data.datasource.favorite.database.FavoriteDataBaseDataSource
 import com.example.learnwithme.data.datasource.favorite.datastore.FavoriteDataStoreDataSource
 import com.example.learnwithme.data.repository.CharacterRepository
+import com.example.learnwithme.di.AppDatabase
 import com.example.learnwithme.domain.usecase.CharacterUseCase
 import com.example.learnwithme.manager.NetworkManager
-import com.example.learnwithme.manager.cache.SharedPreferenceManager
 import com.example.learnwithme.manager.datastore.DataStoreManager
 import com.example.learnwithme.presentation.detail.DetailCharactersView
 import com.example.learnwithme.presentation.detail.DetailCharactersViewModel
@@ -34,6 +32,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 fun AppNavHost(
     navController: NavHostController,
     startDestination: String,
+    context: Context
 ) {
     val mockDatasource = MockCharacterDataSource()
 
@@ -61,10 +60,12 @@ fun AppNavHost(
 
     val favoriteDStoreDataSource = FavoriteDataStoreDataSource(dataStoreManager = DataStoreManager(context = LocalContext.current))
 
+    val favoriteDBaseDataSource = FavoriteDataBaseDataSource(dao = AppDatabase(context).characterDao())
+
     val characterDataSource = rickandmortyDatasource
     val repository = CharacterRepository(
         characterDataSource = characterDataSource,
-        favoriteDatasource = favoriteDStoreDataSource
+        favoriteDatasource = favoriteDBaseDataSource
     )
     val useCase = CharacterUseCase(repository = repository)
     val vm = ListCharactersViewModel(useCase =  useCase)
