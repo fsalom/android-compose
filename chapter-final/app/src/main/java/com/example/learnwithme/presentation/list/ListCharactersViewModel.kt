@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.learnwithme.domain.usecase.CharacterUseCaseInterface
 import com.example.learnwithme.domain.entity.Character
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -25,8 +27,8 @@ data class CharactersUiState(
 )
 
 class ListCharactersViewModel(private val useCase: CharacterUseCaseInterface):
-    ListCharactersViewModelInterface,
-    ViewModel() {
+    ListCharactersViewModelInterface {
+    private var scope = CoroutineScope(Dispatchers.IO)
     private var page = 1
     private var hasNextPage = true
     private var searchText: String = ""
@@ -39,7 +41,7 @@ class ListCharactersViewModel(private val useCase: CharacterUseCaseInterface):
     override val uiState: StateFlow<CharactersUiState> = _uiState.asStateFlow()
 
     override fun load() {
-        viewModelScope.launch {
+        scope.launch{
             if (hasNextPage) {
                     val result: Pair<Boolean, List<Character>> = if (searchText.isNotEmpty()) {
                         useCase.getNextPageAndCharactersWith(searchText, page)
@@ -99,7 +101,7 @@ class ListCharactersViewModel(private val useCase: CharacterUseCaseInterface):
     }
 
     override fun filterWith(text: String) {
-        viewModelScope.launch {
+        scope.launch {
             _uiState.update { state ->
                 state.copy(
                     isLoading = false,
@@ -110,7 +112,7 @@ class ListCharactersViewModel(private val useCase: CharacterUseCaseInterface):
     }
 
     override fun setFavorite(character: Character) {
-        viewModelScope.launch {
+        scope.launch {
             if (character.isFavorite) {
                 useCase.deleteFavorite(character = character)
             } else {
