@@ -1,5 +1,6 @@
 package com.example.learnwithme.data.datasource.character.database.dbo
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.learnwithme.domain.entity.Character
@@ -11,6 +12,7 @@ data class CharacterEntity(
     val status: String? = null,
     val species: String? = null,
     val image: String? = null,
+    @ColumnInfo(defaultValue = "CURRENT_TIMESTAMP") val createdAt: String?    = null,
     @PrimaryKey override val id: Int
 ) : BaseEntity()
 
