@@ -12,7 +12,7 @@ data class CharacterEntity(
     val status: String? = null,
     val species: String? = null,
     val image: String? = null,
-    @ColumnInfo(defaultValue = "CURRENT_TIMESTAMP") val createdAt: String?    = null,
+    @ColumnInfo(name = "created_at") val creationDate: Long = System.currentTimeMillis(),
     @PrimaryKey override val id: Int
 ) : BaseEntity()
 
