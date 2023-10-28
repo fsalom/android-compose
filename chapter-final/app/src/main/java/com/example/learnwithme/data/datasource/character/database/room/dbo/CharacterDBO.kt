@@ -1,4 +1,4 @@
-package com.example.learnwithme.data.datasource.character.database.dbo
+package com.example.learnwithme.data.datasource.character.database.room.dbo
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -12,9 +12,25 @@ data class CharacterEntity(
     val status: String? = null,
     val species: String? = null,
     val image: String? = null,
+    var isFavorite: Boolean = false,
+    val page: Int = 0,
     @ColumnInfo(name = "created_at") val creationDate: Long = System.currentTimeMillis(),
     @PrimaryKey override val id: Int
-) : BaseEntity()
+) : BaseEntity() {
+
+    companion object {
+        fun create(character: Character, page: Int): CharacterEntity {
+            return CharacterEntity(
+                id = character.id,
+                name = character.name,
+                status = character.status,
+                species = character.species,
+                image = character.image,
+                page = page
+            )
+        }
+    }
+}
 
 fun CharacterEntity.toDomain(): Character =
     Character(
@@ -22,5 +38,7 @@ fun CharacterEntity.toDomain(): Character =
         name = name ?: "",
         status = status ?: "",
         species = species ?: "",
-        image = image ?: ""
+        image = image ?: "",
+        isFavorite = isFavorite,
+        creationDate = creationDate
     )
