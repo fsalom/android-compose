@@ -1,11 +1,11 @@
-package com.example.learnwithme.data.datasource.character.mock
+package com.example.learnwithme.data.datasource.character.remote.mock
 
-import com.example.learnwithme.data.datasource.character.CharacterDataSourceInterface
+import com.example.learnwithme.data.datasource.character.remote.CharacterRemoteDataSourceInterface
 import com.example.learnwithme.domain.entity.Character
 import com.example.learnwithme.domain.entity.Pagination
 
 class MockCharacterDataSource(
-): CharacterDataSourceInterface {
+): CharacterRemoteDataSourceInterface {
     val character = Character(
         id = 1,
         name = "Personaje de prueba",
