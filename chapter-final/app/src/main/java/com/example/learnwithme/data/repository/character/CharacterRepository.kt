@@ -10,7 +10,7 @@ class CharacterRepository(
     private val databaseDatasource: CharacterDatabaseDataSourceInterface
 ): CharacterRepositoryInterface {
 
-    private val MILISECONDS_TO_UPDATE: Long = 300000
+    private val MILISECONDS_TO_UPDATE: Long = 3000
     override suspend fun getPagination(page: Int): Pagination {
         var localCharacters = databaseDatasource.getPagination(page)
         return if (localCharacters.characters.isEmpty()) {
@@ -19,7 +19,13 @@ class CharacterRepository(
             pagination
         } else {
             if (shouldBeUpdated(localCharacters.characters.first().creationDate)) {
+                val favoriteIds = localCharacters.characters.filter { it.isFavorite }.map { it.id }
                 var pagination = remoteDataSource.getPagination(page)
+                pagination.characters.forEach {
+                    if (it.id in favoriteIds) {
+                        it.isFavorite = true
+                    }
+                }
                 databaseDatasource.save(pagination.characters, page = page)
                 pagination
             } else {
