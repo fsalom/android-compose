@@ -26,6 +26,7 @@ data class CharacterEntity(
                 status = character.status,
                 species = character.species,
                 image = character.image,
+                isFavorite = character.isFavorite,
                 page = page
             )
         }
