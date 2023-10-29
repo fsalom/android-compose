@@ -5,12 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.RoomDatabase
-import androidx.room.Transaction
-import androidx.room.Update
-
 import com.example.learnwithme.data.datasource.character.database.room.dbo.CharacterEntity
-import com.example.learnwithme.domain.entity.Character
-import com.example.learnwithme.domain.entity.Pagination
 import com.example.learnwithme.manager.database.BaseDao
 
 @Dao
