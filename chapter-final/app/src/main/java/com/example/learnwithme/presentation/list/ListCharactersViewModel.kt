@@ -113,11 +113,7 @@ class ListCharactersViewModel(private val useCase: CharacterUseCaseInterface):
 
     override fun setFavorite(character: Character) {
         scope.launch {
-            if (character.isFavorite) {
-                useCase.deleteFavorite(character = character)
-            } else {
-                useCase.saveFavorite(character = character)
-            }
+            useCase.favOrUnFav(character)
             _uiState.update {
                 it.copy(
                     isLoading = false,
