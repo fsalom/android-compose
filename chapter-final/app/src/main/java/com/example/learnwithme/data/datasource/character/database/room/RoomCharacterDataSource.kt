@@ -41,10 +41,9 @@ class RoomCharacterDataSource(
     }
 
     override suspend fun favOrUnFav(character: Character) {
-        var character = dao.getEntitySync(character.id)
-        if (character != null) {
-            character.isFavorite = !character.isFavorite
-            dao.insertOrReplace(character)
-        }
+        var entity = dao.getEntitySync(character.id)
+        character.isFavorite = !character.isFavorite
+        var newCharacterEntity = CharacterEntity.create(character, if(entity == null) 0 else character.page)
+        dao.insertOrReplace(newCharacterEntity)
     }
 }

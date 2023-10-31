@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.learnwithme.domain.entity.Character
-import com.example.learnwithme.manager.database.BaseEntity
+import com.example.learnwithme.data.manager.database.BaseEntity
 
 @Entity(tableName = "Characters")
 data class CharacterEntity(
@@ -41,5 +41,6 @@ fun CharacterEntity.toDomain(): Character =
         species = species ?: "",
         image = image ?: "",
         isFavorite = isFavorite,
+        page = page,
         creationDate = creationDate
     )
