@@ -1,4 +1,4 @@
-package com.example.learnwithme.manager.network
+package com.example.learnwithme.data.manager.network
 
 sealed class RetrofitError : Exception() {
     object EmptyBody : RetrofitError()

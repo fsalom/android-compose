@@ -1,4 +1,4 @@
-package com.example.learnwithme.manager.database
+package com.example.learnwithme.data.manager.database
 
 import androidx.annotation.NonNull
 import androidx.compose.ui.platform.LocalContext
@@ -19,11 +19,11 @@ import androidx.room.TypeConverters
 import androidx.room.Update
 import androidx.sqlite.db.SimpleSQLiteQuery
 import androidx.sqlite.db.SupportSQLiteQuery
-import com.example.learnwithme.data.datasource.character.database.query.CharacterDao
+import com.example.learnwithme.data.datasource.character.database.room.query.CharacterDao
 
-abstract class BaseDao<T : BaseEntity>(
+abstract class BaseDao<T : BaseEntity> (
     private val tableName: String,
-    private val roomDatabase: RoomDatabase) {
+    private val roomDatabase: RoomDatabase)  {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     abstract fun insert(entity: T): Long

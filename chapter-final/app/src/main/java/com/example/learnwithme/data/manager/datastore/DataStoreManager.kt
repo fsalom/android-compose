@@ -1,4 +1,4 @@
-package com.example.learnwithme.manager.datastore
+package com.example.learnwithme.data.manager.datastore
 
 import android.content.Context
 import androidx.datastore.core.DataStore
@@ -27,6 +27,7 @@ class DataStoreManager(val context: Context) {
     suspend inline fun <reified T> retrieve(key: String): T? {
         val wrappedKey = stringPreferencesKey(key)
         var datastore = context.userSettingsDataStore.data.first()
+
         if (datastore[wrappedKey] != null ) {
             var newobject = GsonBuilder().create().fromJson(datastore[wrappedKey], T::class.java)
             return newobject

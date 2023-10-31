@@ -1,24 +1,12 @@
-package com.example.learnwithme.manager.cache
+package com.example.learnwithme.data.manager.cache
 
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import com.google.gson.GsonBuilder
 
-object SharedPreferenceManager {
-
-    lateinit var preferences: SharedPreferences
-    private const val PREFERENCES_FILE_NAME = "PREFERENCES_FILE_NAME"
-
-    /**
-     * Call this first before retrieving or saving object.
-     *
-     * @param application Instance of application class
-     */
-    fun with(application: Application) {
-        preferences = application.getSharedPreferences(
-            PREFERENCES_FILE_NAME, Context.MODE_PRIVATE)
-    }
+class SharedPreferenceManager(val preferences: SharedPreferences) {
+    private val PREFERENCES_FILE_NAME = "_FAVORITES"
 
     /**
      * Saves object into the Preferences.
@@ -28,7 +16,6 @@ object SharedPreferenceManager {
      **/
     fun <T> save(`object`: T, key: String) {
         val jsonString = GsonBuilder().create().toJson(`object`)
-        //Save that String in SharedPreferences
         preferences.edit().putString(key, jsonString).apply()
     }
 
