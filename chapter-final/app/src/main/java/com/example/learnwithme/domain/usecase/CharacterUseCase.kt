@@ -1,6 +1,6 @@
 package com.example.learnwithme.domain.usecase
 
-import com.example.learnwithme.data.repository.CharacterRepositoryInterface
+import com.example.learnwithme.data.repository.character.CharacterRepositoryInterface
 import com.example.learnwithme.domain.entity.Character
 
 class CharacterUseCase(val repository: CharacterRepositoryInterface): CharacterUseCaseInterface {
@@ -23,12 +23,8 @@ class CharacterUseCase(val repository: CharacterRepositoryInterface): CharacterU
         return repository.getCharacterWith(id)
     }
 
-    override suspend fun saveFavorite(character: Character) {
-        repository.saveFavorite(character)
-    }
-
-    override suspend fun deleteFavorite(character: Character) {
-        repository.deleteFavorite(character)
+    override suspend fun favOrUnFav(character: Character) {
+        repository.favOrUnFav(character)
     }
 
     override suspend fun getFavoriteCharacters(): List<Character> {
