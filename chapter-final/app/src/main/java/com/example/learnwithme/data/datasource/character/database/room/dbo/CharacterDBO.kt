@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import com.example.learnwithme.domain.entity.Character
 import com.example.learnwithme.data.manager.database.BaseEntity
 
-@Entity(tableName = "Characters")
+@Entity(tableName = "characters")
 data class CharacterEntity(
     val name: String? = null,
     val status: String? = null,
