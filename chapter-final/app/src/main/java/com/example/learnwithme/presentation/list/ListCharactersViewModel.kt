@@ -6,6 +6,7 @@ import com.example.learnwithme.domain.usecase.CharacterUseCaseInterface
 import com.example.learnwithme.domain.entity.Character
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -23,7 +24,8 @@ interface ListCharactersViewModelInterface {
 
 data class CharactersUiState(
     var items: List<Character> = mutableListOf(),
-    val isLoading: Boolean = false
+    val isLoading: Boolean = false,
+    val error: String = ""
 )
 
 class ListCharactersViewModel(private val useCase: CharacterUseCaseInterface):
@@ -41,20 +43,29 @@ class ListCharactersViewModel(private val useCase: CharacterUseCaseInterface):
     override val uiState: StateFlow<CharactersUiState> = _uiState.asStateFlow()
 
     override fun load() {
-        scope.launch{
-            if (hasNextPage) {
+        scope.async{
+            try {
+                if (hasNextPage) {
                     val result: Pair<Boolean, List<Character>> = if (searchText.isNotEmpty()) {
                         useCase.getNextPageAndCharactersWith(searchText, page)
                     } else {
                         useCase.getNextPageAndCharacters(page)
                     }
-
                     hasNextPage = result.first
-                page += if (hasNextPage) 1 else 0
+                    page += if (hasNextPage) 1 else 0
+                    _uiState.update {
+                        it.copy(
+                            isLoading = false,
+                            items = it.items + result.second,
+                            error = ""
+                            )
+                    }
+                }
+            } catch (e: Exception) {
                 _uiState.update {
                     it.copy(
                         isLoading = false,
-                        items = it.items + result.second,
+                        error = "Se ha producido un error"
                     )
                 }
             }

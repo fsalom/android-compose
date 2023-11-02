@@ -1,4 +1,5 @@
 package com.example.learnwithme.presentation.list
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
@@ -16,9 +17,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import com.example.learnwithme.presentation.components.CustomProgressIndicator
 import com.example.learnwithme.presentation.list.customview.CharacterRow
+import okhttp3.internal.checkDuration
 
 @Composable
 fun ListCharactersView(viewModel: ListCharactersViewModelInterface,
@@ -31,10 +34,15 @@ fun ListCharactersView(viewModel: ListCharactersViewModelInterface,
         viewModel.load()
     }
 
+
+
     Column {
         SearchBar(search = {
             viewModel.searchThis(it)
         })
+        if (uiState.error.isNotEmpty()) {
+            Toast.makeText(LocalContext.current, uiState.error, Toast.LENGTH_LONG).show()
+        }
         val listState = rememberLazyListState()
         LazyColumn(state = listState) {
             items(uiState.items.size) { index ->
