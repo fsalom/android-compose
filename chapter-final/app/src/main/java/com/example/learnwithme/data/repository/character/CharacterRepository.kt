@@ -10,27 +10,19 @@ class CharacterRepository(
     private val databaseDatasource: CharacterDatabaseDataSourceInterface
 ): CharacterRepositoryInterface {
 
-    private val MILISECONDS_TO_UPDATE: Long = 3000
+    private val millisecondsToUpdate: Long = 3000
     override suspend fun getPagination(page: Int): Pagination {
-        var localCharacters = databaseDatasource.getPagination(page)
-        return if (localCharacters.characters.isEmpty()) {
-            var pagination = remoteDataSource.getPagination(page)
-            databaseDatasource.save(pagination.characters, page = page)
-            pagination
+        val localPagination = databaseDatasource.getPagination(page)
+        val localCharactersIsEmpty = localPagination.characters.isEmpty()
+        val firstCharacter = if(localCharactersIsEmpty) null else localPagination.characters.first()
+        val shouldBeUpdated = if(firstCharacter == null) false else shouldBeUpdated(firstCharacter.creationDate)
+        return if (localCharactersIsEmpty || shouldBeUpdated) {
+            val remotePagination = remoteDataSource.getPagination(page)
+            remotePagination.characters = setFavorites(remotePagination.characters)
+            databaseDatasource.save(remotePagination.characters, page = page)
+            remotePagination
         } else {
-            if (shouldBeUpdated(localCharacters.characters.first().creationDate)) {
-                val favoriteIds = localCharacters.characters.filter { it.isFavorite }.map { it.id }
-                var pagination = remoteDataSource.getPagination(page)
-                pagination.characters.forEach {
-                    if (it.id in favoriteIds) {
-                        it.isFavorite = true
-                    }
-                }
-                databaseDatasource.save(pagination.characters, page = page)
-                pagination
-            } else {
-                localCharacters
-            }
+            localPagination
         }
     }
 
@@ -39,12 +31,7 @@ class CharacterRepository(
     }
 
     override suspend fun getCharacterWith(id: Int): Character? {
-        var localCharacter = databaseDatasource.getCharacterWith(id)
-        return if (localCharacter == null) {
-            remoteDataSource.getCharacterWith(id)
-        } else {
-            localCharacter
-        }
+        return databaseDatasource.getCharacterWith(id) ?: remoteDataSource.getCharacterWith(id)
     }
 
     override suspend fun favOrUnFav(character: Character) {
@@ -56,10 +43,21 @@ class CharacterRepository(
     }
 
     private fun shouldBeUpdated(creationTime: Long): Boolean {
-        var currentTime = System.currentTimeMillis()
-        if (currentTime - creationTime > MILISECONDS_TO_UPDATE) {
+        val currentTime = System.currentTimeMillis()
+        if (currentTime - creationTime > millisecondsToUpdate) {
             return true
         }
         return false
+    }
+
+    private suspend fun setFavorites(characters: List<Character>): List<Character> {
+        val favoriteIds = getFavoriteCharacters().map { it.id }
+        val favoriteCharacters: List<Character> = characters
+        favoriteCharacters.forEach {
+            if (it.id in favoriteIds) {
+                it.isFavorite = true
+            }
+        }
+        return favoriteCharacters
     }
 }
