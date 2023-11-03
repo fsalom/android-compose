@@ -2,31 +2,32 @@ package com.example.learnwithme.presentation.navigation
 
 import android.content.Context
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.example.learnwithme.data.datasource.character.mock.MockCharacterDataSource
+import com.example.learnwithme.data.datasource.character.database.room.RoomCharacterDataSource
 import com.example.learnwithme.data.datasource.character.remote.disney.RemoteDisneyCharactersDataSource
 import com.example.learnwithme.data.datasource.character.remote.disney.api.DisneyApiInterFace
+import com.example.learnwithme.data.datasource.character.remote.mock.MockCharacterDataSource
 import com.example.learnwithme.data.datasource.character.remote.rickandmorty.RemoteCharactersDataSource
 import com.example.learnwithme.data.datasource.character.remote.rickandmorty.api.CharacterApiInterface
-import com.example.learnwithme.data.datasource.favorite.database.FavoriteDataBaseDataSource
-import com.example.learnwithme.data.datasource.favorite.datastore.FavoriteDataStoreDataSource
-import com.example.learnwithme.data.repository.CharacterRepository
+import com.example.learnwithme.data.manager.NetworkManager
+import com.example.learnwithme.data.repository.character.CharacterRepository
 import com.example.learnwithme.di.AppDatabase
 import com.example.learnwithme.domain.usecase.CharacterUseCase
-import com.example.learnwithme.manager.NetworkManager
-import com.example.learnwithme.manager.datastore.DataStoreManager
+import com.example.learnwithme.helper.LoggingInterceptor
 import com.example.learnwithme.presentation.detail.DetailCharactersView
 import com.example.learnwithme.presentation.detail.DetailCharactersViewModel
 import com.example.learnwithme.presentation.list.ListCharactersView
 import com.example.learnwithme.presentation.list.ListCharactersViewModel
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.IOException
+
 
 @Composable
 fun AppNavHost(
@@ -36,11 +37,14 @@ fun AppNavHost(
 ) {
     val mockDatasource = MockCharacterDataSource()
 
+
+    var okHttpClient = OkHttpClient.Builder().addInterceptor(LoggingInterceptor()).build()
+
     val rickandmortyDatasource = RemoteCharactersDataSource(
         characterApi = Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
             .baseUrl("https://rickandmortyapi.com/")
-            .client(OkHttpClient())
+            .client(okHttpClient)
             .build().create(CharacterApiInterface::class.java),
         network = NetworkManager()
     )
@@ -54,18 +58,12 @@ fun AppNavHost(
         network = NetworkManager()
     )
 
-    /*val favoriteDatasource = FavoriteCacheDataSource(
-        sharedPreferenceManager = SharedPreferenceManager(preferences = Application().getSharedPreferences("MAIN", Context.MODE_PRIVATE))
-    )*/
-
-    val favoriteDStoreDataSource = FavoriteDataStoreDataSource(dataStoreManager = DataStoreManager(context = LocalContext.current))
-
-    val favoriteDBaseDataSource = FavoriteDataBaseDataSource(dao = AppDatabase(context).characterDao())
+    val roomCharacterDataSource = RoomCharacterDataSource(dao = AppDatabase(context).characterDao())
 
     val characterDataSource = rickandmortyDatasource
     val repository = CharacterRepository(
-        characterDataSource = characterDataSource,
-        favoriteDatasource = favoriteDBaseDataSource
+        remoteDataSource = characterDataSource,
+        databaseDatasource = roomCharacterDataSource
     )
     val useCase = CharacterUseCase(repository = repository)
     val vm = ListCharactersViewModel(useCase =  useCase)
