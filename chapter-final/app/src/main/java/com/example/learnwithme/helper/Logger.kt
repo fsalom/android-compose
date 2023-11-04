@@ -1,7 +1,6 @@
 package com.example.learnwithme.helper
 
 import android.util.Log
-import com.example.learnwithme.configuration.LOGGER_IDENTIFIER
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonParser
 import okhttp3.Request
@@ -28,27 +27,42 @@ class Logger(private val identifier: String, private val style: Logger.Style) {
     }
 
     private fun logResponse(response: Response, duration: Double) {
-        val icon = if(response.code in 200..300) "✅" else "❌"
+        when (style){
+            Style.COMPLETE -> logComplete(response, duration)
+            Style.SHORT -> logShort(response, duration)
+        }
+    }
+
+    private fun logComplete(response: Response, duration: Double) {
         log(String.format("\uD83D\uDD3D %s [%d] %s en %.1fms",
-            icon,
+            getIcon(response.code),
             response.code,
             response.request.url,
             duration
-        )
-        )
-        if (style == Style.COMPLETE) {
-            log(bodyToString(response))
-            Log.i(
-                LOGGER_IDENTIFIER, String.format(
-                    "\uD83D\uDD3C %s [%d] %s en %.1fms",
-                    icon,
-                    response.code,
-                    response.request.url,
-                    duration
-                )
-            )
-        }
+        ))
+        log(bodyToString(response))
+        log(String.format(
+            "\uD83D\uDD3C %s [%d] %s en %.1fms",
+            getIcon(response.code),
+            response.code,
+            response.request.url,
+            duration
+        ))
     }
+
+    private fun logShort(response: Response, duration: Double) {
+        log(String.format("▶️ %s [%d] %s en %.1fms",
+            getIcon(response.code),
+            response.code,
+            response.request.url,
+            duration
+        ))
+    }
+
+    private fun getIcon(code: Int): String {
+        return if(code in 200..300) "✅" else "❌"
+    }
+
     private fun bodyToString(response: Response): String {
         if (response.body == null) {
             ""

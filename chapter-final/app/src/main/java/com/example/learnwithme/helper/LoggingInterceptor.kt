@@ -12,11 +12,8 @@ class LoggingInterceptor(private val logger: Logger): Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val request: Request = chain.request()
         val t1 = System.nanoTime()
-
-
         val response: Response = chain.proceed(request)
         val t2 = System.nanoTime()
-
         val ms = (t2 - t1) / 1e6
 
         logger.log(response = response, request= request, duration = ms)
