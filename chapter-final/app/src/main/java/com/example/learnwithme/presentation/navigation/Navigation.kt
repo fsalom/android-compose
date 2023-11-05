@@ -24,12 +24,9 @@ import com.example.learnwithme.presentation.detail.DetailCharactersView
 import com.example.learnwithme.presentation.detail.DetailCharactersViewModel
 import com.example.learnwithme.presentation.list.ListCharactersView
 import com.example.learnwithme.presentation.list.ListCharactersViewModel
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.io.IOException
-
 
 @Composable
 fun AppNavHost(
