@@ -65,7 +65,7 @@ class ListCharactersViewModel(private val useCase: CharacterUseCaseInterface):
                 _uiState.update {
                     it.copy(
                         isLoading = false,
-                        error = "Se ha producido un error"
+                        error = e.localizedMessage
                     )
                 }
             }
