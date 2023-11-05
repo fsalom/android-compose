@@ -10,5 +10,6 @@ data class Character(
     val species: String = "",
     val image: String = "",
     var isFavorite: Boolean = false,
+    var page: Int = 0,
     var creationDate: Long = 0
 ): Serializable

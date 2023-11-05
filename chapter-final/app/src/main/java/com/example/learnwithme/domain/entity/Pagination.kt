@@ -4,5 +4,5 @@ import java.io.Serializable
 
 data class Pagination(
     val hasNextPage: Boolean,
-    val characters: List<Character> = listOf()
+    var characters: List<Character> = listOf()
 ): Serializable
