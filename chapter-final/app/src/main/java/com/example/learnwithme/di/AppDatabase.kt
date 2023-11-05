@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.learnwithme.data.datasource.character.database.dbo.CharacterEntity
-import com.example.learnwithme.data.datasource.character.database.query.CharacterDao
+import com.example.learnwithme.data.datasource.character.database.room.dbo.CharacterEntity
+import com.example.learnwithme.data.datasource.character.database.room.query.CharacterDao
 
 @Database(
     entities = [CharacterEntity::class],
