@@ -18,8 +18,8 @@ import com.example.learnwithme.data.manager.NetworkManager
 import com.example.learnwithme.data.repository.character.CharacterRepository
 import com.example.learnwithme.di.AppDatabase
 import com.example.learnwithme.domain.usecase.CharacterUseCase
-import com.example.learnwithme.helper.Logger
-import com.example.learnwithme.helper.LoggingInterceptor
+import com.example.learnwithme.helper.logger.logcat.Logger
+import com.example.learnwithme.helper.interceptor.LoggingInterceptor
 import com.example.learnwithme.presentation.detail.DetailCharactersView
 import com.example.learnwithme.presentation.detail.DetailCharactersViewModel
 import com.example.learnwithme.presentation.list.ListCharactersView
@@ -38,10 +38,13 @@ fun AppNavHost(
 
 
     var okHttpClient = OkHttpClient.Builder().addInterceptor(
-        LoggingInterceptor(Logger(
+        LoggingInterceptor(
+            Logger(
             LOGGER_IDENTIFIER,
             Logger.Style.SHORT
-        ))).build()
+        )
+        )
+    ).build()
 
     val rickandmortyDatasource = RemoteCharactersDataSource(
         characterApi = Retrofit.Builder()

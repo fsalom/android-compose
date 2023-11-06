@@ -1,13 +1,12 @@
-package com.example.learnwithme.helper
+package com.example.learnwithme.helper.interceptor
 
-import com.google.gson.GsonBuilder
-import com.google.gson.JsonParser
+import com.example.learnwithme.helper.logger.LoggerInterface
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
 import java.io.IOException
 
-class LoggingInterceptor(private val logger: Logger): Interceptor {
+class LoggingInterceptor(private val logger: LoggerInterface): Interceptor {
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
         val request: Request = chain.request()
@@ -19,5 +18,4 @@ class LoggingInterceptor(private val logger: Logger): Interceptor {
         logger.log(response = response, request= request, duration = ms)
         return response
     }
-
 }

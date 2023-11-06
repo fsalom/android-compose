@@ -1,20 +1,24 @@
-package com.example.learnwithme.helper
+package com.example.learnwithme.helper.logger.logcat
 
 import android.util.Log
+import com.example.learnwithme.helper.logger.LoggerInterface
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonParser
 import okhttp3.Request
 import okhttp3.Response
 
-class Logger(private val identifier: String, private val style: Logger.Style) {
+class Logger(
+    private val identifier: String,
+    private val style: Style
+): LoggerInterface {
     enum class Style {
         COMPLETE, SHORT
     }
-    fun log(message: String) {
+    override fun log(message: String) {
         Log.i(identifier, message)
     }
 
-    fun log(request: Request, response: Response, duration: Double) {
+    override fun log(request: Request, response: Response, duration: Double) {
         logRequest(request)
         logResponse(response, duration)
     }
