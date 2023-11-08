@@ -1,7 +1,5 @@
-package com.example.learnwithme.data.manager
+package com.example.learnwithme.data.manager.network
 
-import com.example.learnwithme.data.manager.network.HttpCodeError
-import com.example.learnwithme.data.manager.network.RetrofitError
 import retrofit2.HttpException
 import retrofit2.Response
 import java.io.IOException

@@ -6,7 +6,7 @@ import com.example.learnwithme.data.datasource.character.remote.disney.api.Disne
 import com.example.learnwithme.data.datasource.character.remote.disney.dto.toDomain
 import com.example.learnwithme.domain.entity.Character
 import com.example.learnwithme.domain.entity.Pagination
-import com.example.learnwithme.data.manager.NetworkManager
+import com.example.learnwithme.data.manager.network.NetworkManager
 
 class RemoteDisneyCharactersDataSource(
     private val disneyApi: DisneyApiInterFace,

@@ -5,8 +5,7 @@ import com.example.learnwithme.data.datasource.character.remote.rickandmorty.api
 import com.example.learnwithme.data.datasource.character.remote.rickandmorty.dto.toDomain
 import com.example.learnwithme.domain.entity.Pagination
 import com.example.learnwithme.domain.entity.Character
-import com.example.learnwithme.data.manager.NetworkManager
-import java.lang.Exception
+import com.example.learnwithme.data.manager.network.NetworkManager
 
 class RemoteCharactersDataSource(
     private val characterApi: CharacterApiInterface,

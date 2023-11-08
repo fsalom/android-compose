@@ -14,7 +14,7 @@ import com.example.learnwithme.data.datasource.character.remote.disney.api.Disne
 import com.example.learnwithme.data.datasource.character.remote.mock.MockCharacterDataSource
 import com.example.learnwithme.data.datasource.character.remote.rickandmorty.RemoteCharactersDataSource
 import com.example.learnwithme.data.datasource.character.remote.rickandmorty.api.CharacterApiInterface
-import com.example.learnwithme.data.manager.NetworkManager
+import com.example.learnwithme.data.manager.network.NetworkManager
 import com.example.learnwithme.data.repository.character.CharacterRepository
 import com.example.learnwithme.di.AppDatabase
 import com.example.learnwithme.domain.usecase.CharacterUseCase
