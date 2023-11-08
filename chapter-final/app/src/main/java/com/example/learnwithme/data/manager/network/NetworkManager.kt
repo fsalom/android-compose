@@ -1,15 +1,24 @@
 package com.example.learnwithme.data.manager.network
 
+import com.example.learnwithme.configuration.LOGGER_IDENTIFIER
+import com.example.learnwithme.data.datasource.character.remote.rickandmorty.api.CharacterApiInterface
+import com.example.learnwithme.helper.interceptor.LoggingInterceptor
+import com.example.learnwithme.helper.logger.logcat.Logger
+import okhttp3.Interceptor
+import okhttp3.OkHttpClient
 import retrofit2.HttpException
 import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
 import java.net.SocketTimeoutException
 
 interface  NetworkInterface {
     suspend fun <T> load(call: suspend () -> Response<T>): T
 }
-class NetworkManager {
-    suspend fun <T> load(call: suspend () -> Response<T>): T {
+class NetworkManager(): NetworkInterface {
+
+    override suspend fun <T> load(call: suspend () -> Response<T>): T {
         try {
             val response = call()
             response.body()?.let { body ->

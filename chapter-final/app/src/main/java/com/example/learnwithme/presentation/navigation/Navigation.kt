@@ -13,7 +13,6 @@ import com.example.learnwithme.data.datasource.character.remote.disney.RemoteDis
 import com.example.learnwithme.data.datasource.character.remote.disney.api.DisneyApiInterFace
 import com.example.learnwithme.data.datasource.character.remote.mock.MockCharacterDataSource
 import com.example.learnwithme.data.datasource.character.remote.rickandmorty.RemoteCharactersDataSource
-import com.example.learnwithme.data.datasource.character.remote.rickandmorty.api.CharacterApiInterface
 import com.example.learnwithme.data.manager.network.NetworkManager
 import com.example.learnwithme.data.repository.character.CharacterRepository
 import com.example.learnwithme.di.AppDatabase
@@ -36,23 +35,17 @@ fun AppNavHost(
 ) {
     val mockDatasource = MockCharacterDataSource()
 
+    var okHttpClient = OkHttpClient
+        .Builder()
+        .addInterceptor(LoggingInterceptor(
+            Logger(LOGGER_IDENTIFIER, Logger.Style.SHORT)
+        ))
+        .build()
 
-    var okHttpClient = OkHttpClient.Builder().addInterceptor(
-        LoggingInterceptor(
-            Logger(
-            LOGGER_IDENTIFIER,
-            Logger.Style.SHORT
-        )
-        )
-    ).build()
-
-    val rickandmortyDatasource = RemoteCharactersDataSource(
-        characterApi = Retrofit.Builder()
-            .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl("https://rickandmortyapi.com/")
-            .client(okHttpClient)
-            .build().create(CharacterApiInterface::class.java),
-        network = NetworkManager()
+    val rickAndMortyDatasource = RemoteCharactersDataSource(
+        network = NetworkManager(),
+        baseURL = "https://rickandmortyapi.com/",
+        client = okHttpClient
     )
 
     val disneyDatasource = RemoteDisneyCharactersDataSource(
@@ -66,9 +59,8 @@ fun AppNavHost(
 
     val roomCharacterDataSource = RoomCharacterDataSource(dao = AppDatabase(context).characterDao())
 
-    val characterDataSource = rickandmortyDatasource
     val repository = CharacterRepository(
-        remoteDataSource = characterDataSource,
+        remoteDataSource = rickAndMortyDatasource,
         databaseDatasource = roomCharacterDataSource
     )
     val useCase = CharacterUseCase(repository = repository)

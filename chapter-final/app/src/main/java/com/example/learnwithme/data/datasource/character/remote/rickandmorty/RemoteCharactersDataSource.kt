@@ -3,14 +3,26 @@ package com.example.learnwithme.data.datasource.character.remote.rickandmorty
 import com.example.learnwithme.data.datasource.character.remote.CharacterRemoteDataSourceInterface
 import com.example.learnwithme.data.datasource.character.remote.rickandmorty.api.CharacterApiInterface
 import com.example.learnwithme.data.datasource.character.remote.rickandmorty.dto.toDomain
+import com.example.learnwithme.data.manager.network.NetworkInterface
 import com.example.learnwithme.domain.entity.Pagination
 import com.example.learnwithme.domain.entity.Character
-import com.example.learnwithme.data.manager.network.NetworkManager
+import okhttp3.OkHttpClient
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class RemoteCharactersDataSource(
-    private val characterApi: CharacterApiInterface,
-    private val network: NetworkManager
+    private val network: NetworkInterface,
+    private val baseURL: String,
+    private val client: OkHttpClient
 ): CharacterRemoteDataSourceInterface {
+
+    private val characterApi: CharacterApiInterface = Retrofit
+        .Builder()
+        .addConverterFactory(GsonConverterFactory.create())
+        .baseUrl(baseURL)
+        .client(client)
+        .build()
+        .create(CharacterApiInterface::class.java)
 
     override suspend fun getPagination(page: Int): Pagination {
         val response = network.load { characterApi.getCharacters(page) }
