@@ -12,17 +12,10 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class RemoteCharactersDataSource(
     private val network: NetworkInterface,
-    private val baseURL: String,
-    private val client: OkHttpClient
+    private val retrofit: Retrofit,
 ): CharacterRemoteDataSourceInterface {
 
-    private val characterApi: CharacterApiInterface = Retrofit
-        .Builder()
-        .addConverterFactory(GsonConverterFactory.create())
-        .baseUrl(baseURL)
-        .client(client)
-        .build()
-        .create(CharacterApiInterface::class.java)
+    private val characterApi: CharacterApiInterface = retrofit.create(CharacterApiInterface::class.java)
 
     override suspend fun getPagination(page: Int): Pagination {
         val response = network.load { characterApi.getCharacters(page) }
