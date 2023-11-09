@@ -38,14 +38,18 @@ fun AppNavHost(
     var okHttpClient = OkHttpClient
         .Builder()
         .addInterceptor(LoggingInterceptor(
-            Logger(LOGGER_IDENTIFIER, Logger.Style.SHORT)
+            Logger(LOGGER_IDENTIFIER, Logger.Style.COMPLETE)
         ))
         .build()
 
     val rickAndMortyDatasource = RemoteCharactersDataSource(
         network = NetworkManager(),
-        baseURL = "https://rickandmortyapi.com/",
-        client = okHttpClient
+        retrofit = Retrofit
+            .Builder()
+            .addConverterFactory(GsonConverterFactory.create())
+            .baseUrl("https://rickandmortyapi.com/")
+            .client(okHttpClient)
+            .build()
     )
 
     val disneyDatasource = RemoteDisneyCharactersDataSource(
