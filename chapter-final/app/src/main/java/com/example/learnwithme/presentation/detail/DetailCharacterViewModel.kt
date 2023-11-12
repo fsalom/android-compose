@@ -28,12 +28,11 @@ class DetailCharactersViewModel(private val id: Int,
     DetailCharactersViewModelInterface,
     ViewModel() {
 
-    private var scope = CoroutineScope(Dispatchers.IO)
     private val _uiState = MutableStateFlow(CharacterUiState(isLoading = true))
     override val uiState: StateFlow<CharacterUiState> = _uiState.asStateFlow()
 
     override fun load() {
-        scope.launch {
+        viewModelScope.launch {
             val character = useCase.getCharacterWith(id)
             _uiState.update {
                 it.copy(
@@ -41,7 +40,6 @@ class DetailCharactersViewModel(private val id: Int,
                     character = character
                 )
             }
-            //_uiState.emit(uiState.value)
         }
     }
 }

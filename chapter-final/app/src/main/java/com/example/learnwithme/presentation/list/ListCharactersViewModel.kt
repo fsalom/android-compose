@@ -29,8 +29,7 @@ data class CharactersUiState(
 )
 
 class ListCharactersViewModel(private val useCase: CharacterUseCaseInterface):
-    ListCharactersViewModelInterface {
-    private var scope = CoroutineScope(Dispatchers.IO)
+    ListCharactersViewModelInterface, ViewModel() {
     private var page = 1
     private var hasNextPage = true
     private var searchText: String = ""
@@ -43,7 +42,7 @@ class ListCharactersViewModel(private val useCase: CharacterUseCaseInterface):
     override val uiState: StateFlow<CharactersUiState> = _uiState.asStateFlow()
 
     override fun load() {
-        scope.async{
+        viewModelScope.launch {
             try {
                 if (hasNextPage) {
                     val result: Pair<Boolean, List<Character>> = if (searchText.isNotEmpty()) {
@@ -112,7 +111,7 @@ class ListCharactersViewModel(private val useCase: CharacterUseCaseInterface):
     }
 
     override fun filterWith(text: String) {
-        scope.launch {
+        viewModelScope.launch {
             _uiState.update { state ->
                 state.copy(
                     isLoading = false,
@@ -123,7 +122,7 @@ class ListCharactersViewModel(private val useCase: CharacterUseCaseInterface):
     }
 
     override fun setFavorite(character: Character) {
-        scope.launch {
+        viewModelScope.launch {
             useCase.favOrUnFav(character)
             _uiState.update {
                 it.copy(
