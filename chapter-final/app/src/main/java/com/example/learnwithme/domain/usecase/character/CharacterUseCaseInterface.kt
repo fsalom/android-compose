@@ -1,4 +1,4 @@
-package com.example.learnwithme.domain.usecase
+package com.example.learnwithme.domain.usecase.character
 
 import com.example.learnwithme.domain.entity.Character
 

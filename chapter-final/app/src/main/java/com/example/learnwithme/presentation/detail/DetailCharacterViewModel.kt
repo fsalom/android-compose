@@ -3,10 +3,7 @@ package com.example.learnwithme.presentation.detail
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.learnwithme.domain.entity.Character
-import com.example.learnwithme.domain.usecase.CharacterUseCaseInterface
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
+import com.example.learnwithme.domain.usecase.character.CharacterUseCaseInterface
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -24,7 +21,8 @@ data class CharacterUiState(
 )
 
 class DetailCharactersViewModel(private val id: Int,
-                                private val useCase: CharacterUseCaseInterface):
+                                private val useCase: CharacterUseCaseInterface
+):
     DetailCharactersViewModelInterface,
     ViewModel() {
 

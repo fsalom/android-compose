@@ -16,7 +16,7 @@ import com.example.learnwithme.data.datasource.character.remote.rickandmorty.Rem
 import com.example.learnwithme.data.manager.network.NetworkManager
 import com.example.learnwithme.data.repository.character.CharacterRepository
 import com.example.learnwithme.di.AppDatabase
-import com.example.learnwithme.domain.usecase.CharacterUseCase
+import com.example.learnwithme.domain.usecase.character.CharacterUseCase
 import com.example.learnwithme.helper.logger.logcat.Logger
 import com.example.learnwithme.helper.interceptor.LoggingInterceptor
 import com.example.learnwithme.presentation.detail.DetailCharactersView

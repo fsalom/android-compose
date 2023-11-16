@@ -2,12 +2,8 @@ package com.example.learnwithme.presentation.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.learnwithme.domain.usecase.CharacterUseCaseInterface
+import com.example.learnwithme.domain.usecase.character.CharacterUseCaseInterface
 import com.example.learnwithme.domain.entity.Character
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
