@@ -13,9 +13,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
 import java.net.SocketTimeoutException
 
-interface  NetworkInterface {
-    suspend fun <T> load(call: suspend () -> Response<T>): T
-}
 class NetworkManager(): NetworkInterface {
 
     override suspend fun <T> load(call: suspend () -> Response<T>): T {
