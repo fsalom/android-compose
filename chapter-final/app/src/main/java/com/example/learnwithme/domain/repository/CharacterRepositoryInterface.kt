@@ -1,4 +1,4 @@
-package com.example.learnwithme.data.repository.character
+package com.example.learnwithme.domain.repository
 
 import com.example.learnwithme.domain.entity.Pagination
 import com.example.learnwithme.domain.entity.Character

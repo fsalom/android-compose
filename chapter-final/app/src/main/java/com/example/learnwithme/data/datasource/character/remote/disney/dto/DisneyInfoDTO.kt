@@ -1,5 +1,7 @@
 package com.example.learnwithme.data.datasource.character.remote.disney.dto
 
+import com.example.learnwithme.data.datasource.character.remote.rickandmorty.dto.CharactersInfoDTO
+import com.example.learnwithme.data.datasource.character.remote.rickandmorty.dto.PaginationDTO
 import com.example.learnwithme.domain.entity.Pagination
 import com.google.gson.annotations.SerializedName
 
@@ -17,8 +19,13 @@ data class DisneyPaginationDTO(
     @SerializedName("nextPage") var next : String? = null
 )
 
-fun DisneyInfoDTO.toDomain(): Pagination =
-    Pagination(
-        hasNextPage = info?.next != null,
-        characters = data.map { it.toDomain() }
+fun DisneyInfoDTO.toCharactersInfoDTO(): CharactersInfoDTO =
+    CharactersInfoDTO(
+        info = info?.toPaginationDTO(),
+        results = data.map { it.toCharacterDTO() }
+    )
+
+fun DisneyPaginationDTO.toPaginationDTO(): PaginationDTO =
+    PaginationDTO(
+        next = next
     )

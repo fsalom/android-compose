@@ -16,12 +16,4 @@ data class CharacterDTO(
     @SerializedName("episode") val episodes: List<String>? = null
 )
 
-fun CharacterDTO.toDomain(): Character =
-    Character(
-        id = id ?: 0,
-        name = name ?: "",
-        status = status ?: "",
-        species = species ?: "",
-        image = image ?: ""
-    )
 

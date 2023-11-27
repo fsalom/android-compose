@@ -1,11 +1,6 @@
 package com.example.learnwithme.data.manager.network
 
-import com.example.learnwithme.configuration.LOGGER_IDENTIFIER
-import com.example.learnwithme.data.datasource.character.remote.rickandmorty.api.CharacterApiInterface
-import com.example.learnwithme.helper.interceptor.LoggingInterceptor
-import com.example.learnwithme.helper.logger.logcat.Logger
-import okhttp3.Interceptor
-import okhttp3.OkHttpClient
+import com.example.learnwithme.data.datasource.character.remote.rickandmorty.dto.CharactersInfoDTO
 import retrofit2.HttpException
 import retrofit2.Response
 import retrofit2.Retrofit

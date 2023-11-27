@@ -1,7 +1,6 @@
 package com.example.learnwithme.data.datasource.character.remote.disney.dto
 
-import com.example.learnwithme.data.datasource.character.remote.rickandmorty.dto.LocationDTO
-import com.example.learnwithme.domain.entity.Character
+import com.example.learnwithme.data.datasource.character.remote.rickandmorty.dto.CharacterDTO
 import com.google.gson.annotations.SerializedName
 
 data class DisneyCharacterDTO(
@@ -10,8 +9,8 @@ data class DisneyCharacterDTO(
     @SerializedName("imageUrl") val image: String? = null
 )
 
-fun DisneyCharacterDTO.toDomain(): Character =
-    Character(
+fun DisneyCharacterDTO.toCharacterDTO(): CharacterDTO =
+    CharacterDTO(
         id = id ?: 0,
         name = name ?: "",
         image = image ?: ""

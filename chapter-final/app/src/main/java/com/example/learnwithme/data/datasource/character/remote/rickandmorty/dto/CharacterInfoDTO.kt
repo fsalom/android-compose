@@ -15,8 +15,3 @@ data class PaginationDTO(
     @SerializedName("prev") var prev  : String? = ""
 )
 
-fun CharactersInfoDTO.toDomain(): Pagination =
-    Pagination(
-        hasNextPage = info?.next != null,
-        characters = results.map { it.toDomain() }
-    )

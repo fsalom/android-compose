@@ -73,7 +73,7 @@ class Logger(
         }
         return GsonBuilder().setPrettyPrinting().create().toJson(
             JsonParser().parse(
-                response.peekBody(Long.MAX_VALUE).string() ?: ""
+                response.peekBody(Long.MAX_VALUE).string()
             )
         )
     }

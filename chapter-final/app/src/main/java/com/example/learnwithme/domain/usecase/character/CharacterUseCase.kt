@@ -1,6 +1,6 @@
 package com.example.learnwithme.domain.usecase.character
 
-import com.example.learnwithme.data.repository.character.CharacterRepositoryInterface
+import com.example.learnwithme.domain.repository.CharacterRepositoryInterface
 import com.example.learnwithme.domain.entity.Character
 
 class CharacterUseCase(val repository: CharacterRepositoryInterface): CharacterUseCaseInterface {
